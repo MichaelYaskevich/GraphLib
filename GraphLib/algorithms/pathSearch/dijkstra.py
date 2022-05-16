@@ -1,8 +1,16 @@
 import bisect
 import math
+from GraphLib.dataStructures import graph
 
 
-def dijkstra_shortest_path(graph, source):
+dist = {}
+previous = {}
+sorted_nodes = []
+visited = set()
+graph: graph
+
+
+def dijkstra_shortest_path(_graph, source):
     '''
     Finds shortest paths from source vertex to all other nodes
     :param graph: graph with positive or zero weights
@@ -10,48 +18,49 @@ def dijkstra_shortest_path(graph, source):
     :return: shortest path tree with distances
     '''
 
-    dist = initialise_distances(graph, source)
-    previous = {source: None}
-    sorted_nodes = [(source, 0)]
-    visited = set()
+    set_up(_graph, source)
 
-    run_algorithm_loop(visited, graph, dist, previous, sorted_nodes)
+    run_algorithm_loop()
 
     return previous, dist
 
 
-def run_algorithm_loop(visited, graph, dist, previous, sorted_nodes):
+def set_up(_graph, source):
+    global graph
+    graph = _graph
+    initialise_distances(source)
+    previous[source] = None
+    sorted_nodes.append((source, 0))
+
+
+def run_algorithm_loop():
     while len(sorted_nodes) > 0:
         current_node = sorted_nodes.pop(0)
 
         if current_node[0] not in visited:
-            visit(visited, current_node, graph,
-                  dist, previous, sorted_nodes)
+            visit(current_node)
 
 
-def visit(visited, current_node, graph, dist, previous, sorted_nodes):
+def visit(current_node):
     node = current_node[0]
     visited.add(node)
     for neighbor in graph[node]:
         if neighbor not in visited:
-            update(neighbor, current_node, graph,
-                   dist, previous, sorted_nodes)
+            update_distance(current_node, neighbor)
 
 
-def update(vertex, current_node, graph, dist, previous, sorted_nodes):
+def update_distance(current_node, neighbor):
     node, distance = current_node
-    weight = graph.edge_weight((node, vertex))
+    weight = graph.edge_weight((node, neighbor))
     new_dist = distance + weight
-    if dist[vertex] > new_dist:
-        previous[vertex] = node
-        dist[vertex] = new_dist
+    if dist[neighbor] > new_dist:
+        previous[neighbor] = node
+        dist[neighbor] = new_dist
         bisect.insort(sorted_nodes,
-                      (vertex, new_dist))
+                      (neighbor, new_dist))
 
 
-def initialise_distances(graph, source):
-    dist = {}
+def initialise_distances(source):
     for v in graph.adjacency_lists.keys():
         dist[v] = math.inf
     dist[source] = 0
-    return dist

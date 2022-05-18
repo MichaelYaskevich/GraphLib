@@ -8,7 +8,7 @@ graph: DiGraph
 previous = {}
 
 
-def shortest_path_bellman_ford(_graph, source) -> (dict, dict):
+def shortest_paths_bellman_ford(_graph: DiGraph, source: int) -> (dict, dict):
     '''
     Finds shortest paths from source vertex to all other nodes.
 

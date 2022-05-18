@@ -5,7 +5,7 @@ from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.exception import CycleError
 
 
-def shortest_path_for_dag(graph: DiGraph, source):
+def shortest_paths_for_dag(graph: DiGraph, source: int) -> (dict, dict):
     """
     Finds shortest paths in directed acyclic graph (DAG)
     from source vertex to all other nodes.
@@ -20,7 +20,7 @@ def shortest_path_for_dag(graph: DiGraph, source):
 
     sorted_vertexes = topological_sort(graph.adjacency_lists)
 
-    return find_shortest_path(sorted_vertexes, graph, source)
+    return find_shortest_paths(sorted_vertexes, graph, source)
 
 
 def topological_sort(adjacency_lists):
@@ -71,7 +71,7 @@ def topological_sort(adjacency_lists):
     raise CycleError("")
 
 
-def find_shortest_path(sorted_vertexes: list, graph: DiGraph, source: int):
+def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source: int) -> (dict, dict):
     """
     Finds shortest paths from source vertex to all other nodes.
 

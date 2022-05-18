@@ -2,7 +2,7 @@ import bisect
 import math
 
 
-def dijkstra_shortest_path(_graph, source):
+def dijkstra_shortest_paths(_graph, source):
     '''
     Finds shortest paths from source vertex to all other nodes
     :param graph: graph with positive or zero weights

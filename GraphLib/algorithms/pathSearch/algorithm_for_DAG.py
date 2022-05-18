@@ -1,5 +1,4 @@
 import math
-import queue
 
 from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.exception import CycleError
@@ -31,33 +30,13 @@ def topological_sort(adjacency_lists):
     :return: vertexes in topological order
     :raises CycleError if graph contains cycle
     """
+    from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import \
+        initialize_input_degrees, initialize_queue, visit
+
     nodes_count = len(adjacency_lists)
 
-    def initialize_input_degrees():
-        deg_in_list = [0] * nodes_count
-
-        for vertex in range(nodes_count):
-            for neighbor in adjacency_lists[vertex]:
-                deg_in_list[neighbor - 1] += 1
-
-        return deg_in_list
-
-    def initialize_queue(deg_in_list):
-        q = queue.Queue()
-
-        for vertex in range(nodes_count):
-            if deg_in_list[vertex] == 0:
-                q.put(vertex)
-
-        return q
-
-    def visit(deg_in_list, vertex, visited_queue):
-        deg_in_list[vertex - 1] -= 1
-        if deg_in_list[vertex - 1] == 0:
-            visited_queue.put(vertex - 1)
-
-    deg_in = initialize_input_degrees()
-    visited = initialize_queue(deg_in)
+    deg_in = initialize_input_degrees(adjacency_lists)
+    visited = initialize_queue(deg_in, nodes_count)
     sorted = []
 
     while visited.qsize() != 0:
@@ -80,22 +59,8 @@ def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source: int) -> (
     :param source: first vertex in path
     :return: shortest path tree with distances
     """
-
-    def update_distances(distances, previous, vertex):
-        for w in graph.adjacency_lists[vertex]:
-            weight = graph.edge_weight((vertex, w))
-            if distances[vertex] + weight < distances[w - 1]:
-                distances[w - 1] = distances[vertex] + weight
-                previous[w - 1] = vertex
-
-    def find_vertex_index(vertexes, vertex):
-        index = -1
-        for (i, v) in enumerate(vertexes):
-            if v == vertex - 1:
-                index = i
-                break
-
-        return index
+    from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import \
+        find_vertex_index, update_distances
 
     nodes_count = len(graph.adjacency_lists.keys())
     dist = [math.inf] * nodes_count
@@ -106,6 +71,6 @@ def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source: int) -> (
 
     for k in range(source_index, nodes_count):
         vk = sorted_vertexes[k]
-        update_distances(dist, prev, vk)
+        update_distances(graph, dist, prev, vk)
 
     return prev, dist

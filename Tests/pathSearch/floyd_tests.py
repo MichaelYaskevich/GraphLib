@@ -6,19 +6,6 @@ from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.edge import Edge
 
 
-def make_graph():
-    graph = DiGraph()
-    for node in [1, 2, 3, 5]:
-        graph.add_node(node)
-    graph.add_edge(Edge(1, 2, 1))
-    graph.add_edge(Edge(1, 3, 3))
-    graph.add_edge(Edge(2, 3, 1))
-    graph.add_edge(Edge(2, 5, 3))
-    graph.add_edge(Edge(5, 3, 2))
-
-    return graph
-
-
 class Dijkstra(unittest.TestCase):
     def test_floyd_shortest_path(self):
         graph = make_graph()
@@ -54,3 +41,16 @@ class Dijkstra(unittest.TestCase):
         update_distance(distances, w, i, j)
 
         assert distances[i][j] == 3
+
+
+def make_graph():
+    graph = DiGraph()
+    for node in [1, 2, 3, 5]:
+        graph.add_node(node)
+    graph.add_edge(Edge(1, 2, 1))
+    graph.add_edge(Edge(1, 3, 3))
+    graph.add_edge(Edge(2, 3, 1))
+    graph.add_edge(Edge(2, 5, 3))
+    graph.add_edge(Edge(5, 3, 2))
+
+    return graph

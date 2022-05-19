@@ -1,11 +1,16 @@
 import unittest
 
+from GraphLib.algorithms.pathSearch.bellman_ford import shortest_paths_bellman_ford
 from GraphLib.algorithms.pathSearch.bellman_ford_help_functions import *
 from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.edge import Edge
 
 
 class Bellman_Ford(unittest.TestCase):
+    def test_shortest_paths_bellman_ford(self):
+        # TODO: shortest_paths_bellman_ford()
+        pass
+
     def test_find_negative_cycle(self):
         graph = DiGraph()
         for v in ['a', 'b', 'c', 'd']:

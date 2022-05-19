@@ -8,6 +8,16 @@ from GraphLib.dataStructures.edge import Edge
 
 
 class Dijkstra(unittest.TestCase):
+    def test_dijkstra_shortest_paths(self):
+        graph = make_graph()
+        actual_previous, actual_dist = dijkstra_shortest_paths(graph, 'a')
+
+        expected_dist = {'a': 0, 'b': 1, 'c': 2}
+        expected_previous = {'a': None, 'b': 'a', 'c': 'b'}
+
+        assert actual_dist == expected_dist
+        assert actual_previous == expected_previous
+
     def test_initialise_distances(self):
         nodes = [1, 3, 5]
         source = 3
@@ -64,16 +74,6 @@ class Dijkstra(unittest.TestCase):
         assert dist['c'] == 2
         assert dist['b'] == 1
         assert sorted_nodes == [(0, 'a'), (1, 'b'), (2, 'c'), (3, 'c')]
-
-    def test_dijkstra_shortest_paths(self):
-        graph = make_graph()
-        actual_previous, actual_dist = dijkstra_shortest_paths(graph, 'a')
-
-        expected_dist = {'a': 0, 'b': 1, 'c': 2}
-        expected_previous = {'a': None, 'b': 'a', 'c': 'b'}
-
-        assert actual_dist == expected_dist
-        assert actual_previous == expected_previous
 
 
 def make_graph():

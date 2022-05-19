@@ -11,7 +11,7 @@ def dijkstra_shortest_paths(graph, source):
     sorted_nodes = [(0, source)]
     visited = set()
     dist = initialise_distances(
-        graph.adjacency_lists.keys(), source)
+        graph.get_nodes(), source)
 
     while len(sorted_nodes) > 0:
         current_node = sorted_nodes.pop(0)

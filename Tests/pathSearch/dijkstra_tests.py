@@ -1,8 +1,10 @@
 import math
 import unittest
 
+from GraphLib.algorithms.pathSearch.dijkstra import dijkstra_shortest_paths
 from GraphLib.algorithms.pathSearch.dijkstra_help_functions import initialise_distances, visit, update_distance
 from GraphLib.dataStructures.di_graph import DiGraph
+from GraphLib.dataStructures.edge import Edge
 
 
 class Dijkstra(unittest.TestCase):
@@ -46,16 +48,40 @@ class Dijkstra(unittest.TestCase):
         assert sorted_nodes == [(2, 3), (4, 4)]
 
     def test_visit(self):
-        pass
-        # current_node = 1
-        # visited = set()
-        # graph = DiGraph()
-        # dist = {}
-        # previous = {}
-        # sorted_nodes = []
-        # visit(current_node, visited, graph, dist, previous, sorted_nodes)
-        #
-        # assert len(visited) == 1
-        # assert current_node in visited
+        graph = make_graph()
+        visited = set()
+        dist = {'a': 0, 'b': math.inf, 'c': math.inf}
+        previous = {}
+        sorted_nodes = [(0, 'a')]
+        visit('a', visited, graph, dist, previous, sorted_nodes)
+        visit('b', visited, graph, dist, previous, sorted_nodes)
+
+        assert len(visited) == 2
+        assert 'a' in visited
+        assert 'b' in visited
+        assert previous['c'] == 'b'
+        assert previous['b'] == 'a'
+        assert dist['c'] == 2
+        assert dist['b'] == 1
+        assert sorted_nodes == [(0, 'a'), (1, 'b'), (2, 'c'), (3, 'c')]
+
+    def test_dijkstra_shortest_paths(self):
+        graph = make_graph()
+        actual_previous, actual_dist = dijkstra_shortest_paths(graph, 'a')
+
+        expected_dist = {'a': 0, 'b': 1, 'c': 2}
+        expected_previous = {'a': None, 'b': 'a', 'c': 'b'}
+
+        assert actual_dist == expected_dist
+        assert actual_previous == expected_previous
 
 
+def make_graph():
+    graph = DiGraph()
+    for v in ['a', 'b', 'c']:
+        graph.add_node(v)
+    graph.add_edge(Edge('a', 'c', 3))
+    graph.add_edge(Edge('a', 'b', 1))
+    graph.add_edge(Edge('b', 'c', 1))
+
+    return graph

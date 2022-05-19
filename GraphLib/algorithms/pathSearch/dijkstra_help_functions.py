@@ -2,23 +2,22 @@ import bisect
 import math
 
 
-def visit(current_node, visited, graph):
-    node = current_node[0]
-    visited.add(node)
-    for neighbor in graph[node]:
+def visit(current_node, visited, graph, dist, previous, sorted_nodes):
+    visited.add(current_node)
+    for neighbor in graph[current_node]:
         if neighbor not in visited:
             update_distance(current_node, neighbor,
-                            graph.edge_weight((node, neighbor)))
+                            graph.edge_weight((current_node, neighbor)),
+                            dist, previous, sorted_nodes)
 
 
 def update_distance(current_node, neighbor, weight, dist, previous, sorted_nodes):
-    node, distance = current_node
-    new_dist = distance + weight
+    new_dist = dist[current_node] + weight
     if dist[neighbor] > new_dist:
-        previous[neighbor] = node
+        previous[neighbor] = current_node
         dist[neighbor] = new_dist
         bisect.insort(sorted_nodes,
-                      (neighbor, new_dist))
+                      (new_dist, neighbor))
 
 
 def initialise_distances(nodes, source):

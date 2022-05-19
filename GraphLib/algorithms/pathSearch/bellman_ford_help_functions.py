@@ -15,9 +15,9 @@ def update_distances(graph, dist, previous):
                     previous)
 
 
-def update_dist(prev, current, dist, weight, previous):
-    dist[current] = dist[prev] + weight
-    previous[current] = prev
+def update_dist(current, neighbor, dist, weight, previous):
+    dist[neighbor] = dist[current] + weight
+    previous[neighbor] = current
 
 
 def get_better_edges(graph, dist):
@@ -35,6 +35,8 @@ def build_cycle(prev, source, previous):
     path = [source, prev]
     current = prev
     while current != source:
+        if current not in previous:
+            raise Exception("There isn't enough information to build a cycle")
         current = previous[current]
         path.append(current)
 

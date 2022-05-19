@@ -1,5 +1,6 @@
 import math
 
+from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.exception import NegativeCycleError
 
 
@@ -8,11 +9,10 @@ def find_negative_cycle(graph, dist, previous):
         raise_error(w, v, previous)
 
 
-def update_distances(graph, dist, previous):
+def update_distances(graph: DiGraph, dist, previous):
     for w, v in get_better_edges(graph, dist):
-        update_dist(w, v, dist,
-                    graph.edge_weight((w, v)),
-                    previous)
+        edge = graph.get_incident_edge(w, v)
+        update_dist(w, v, dist, edge.weight, previous)
 
 
 def update_dist(current, neighbor, dist, weight, previous):
@@ -20,9 +20,10 @@ def update_dist(current, neighbor, dist, weight, previous):
     previous[neighbor] = current
 
 
-def get_better_edges(graph, dist):
-    for w, v in graph.edges():
-        if dist[w] + graph.edge_weight((w, v)) < dist[v]:
+def get_better_edges(graph: DiGraph, dist):
+    for w, v in graph.get_edges():
+        edge = graph.get_incident_edge(w, v)
+        if dist[w] + edge.weight < dist[v]:
             yield w, v
 
 

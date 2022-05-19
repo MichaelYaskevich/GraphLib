@@ -11,13 +11,11 @@ def floyd_shortest_path(graph: DiGraph):
     from GraphLib.algorithms.pathSearch.floyd_help_functions import \
         initialise_matrix_of_distances, update_distance
 
-    node_count = len(graph.adjacency_lists.keys())
-
     distances = initialise_matrix_of_distances(graph)
 
-    for w in range(node_count):
-        for i in range(node_count):
-            for j in range(node_count):
+    for w in graph.get_nodes():
+        for i in graph.get_nodes():
+            for j in graph.get_nodes():
                 update_distance(distances, w, i, j)
 
     return distances

@@ -2,8 +2,7 @@ import unittest
 
 from GraphLib.algorithms.pathSearch.algorithm_for_DAG import *
 from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import *
-from GraphLib.dataStructures.di_graph import DiGraph
-from GraphLib.dataStructures.edge import Edge
+from Tests.dataStructures.graph_making_functions import *
 
 
 class Algorithm_for_DAG(unittest.TestCase):
@@ -32,8 +31,25 @@ class Algorithm_for_DAG(unittest.TestCase):
         pass
 
     def test_shortest_paths_for_dag(self):
-        # TODO: shortest_paths_for_dag()
-        pass
+        find_shortest_paths(make_graph(), 'a',
+                            {'a': 0, 'b': 1, 'c': 3},
+                            {'a': None, 'b': 'a', 'c': 'b'})
+        find_shortest_paths(make_graph1(), 1,
+                            {1: 0, 2: 4, 3: 4, 4: 11},
+                            {1: None, 2: 3, 3: 1, 4: 3})
+        find_shortest_paths(make_graph2(), 1,
+                            {1: 0, 2: 10, 3: 50, 4: 30, 5: 60},
+                            {1: None, 2: 1, 3: 4, 4: 1, 5: 3})
+        # TODO: починить тест
+        # find_shortest_paths(make_graph3(), 1,
+        #                     {1: 0, 2: 1, 3: 2, 4: 5, 5: 5, 6: 5, 7: 7, 8: 9},
+        #                     {1: None, 2: 1, 3: 1, 4: 1, 5: 2, 6: 3, 7: 4, 8: 7})
+        find_shortest_paths(make_graph4(), 1,
+                            {1: 0, 2: 12, 3: 24, 4: 36, 5: 12, 6: 30, 7: 56},
+                            {1: None, 2: 1, 3: 2, 4: 3, 5: 1, 6: 1, 7: 4})
+        find_shortest_paths(make_graph5(), 1,
+                            {1: 0, 2: 4, 3: 2, 4: 9, 5: 5, 6: 20},
+                            {1: None, 2: 1, 3: 1, 4: 5, 5: 3, 6: 4})
 
     def test_initialize_input_degrees(self):
         adjacency_lists = {'a': ['b', 'c'], 'b': ['c'], 'c': []}
@@ -76,6 +92,13 @@ class Algorithm_for_DAG(unittest.TestCase):
         actual_index = find_vertex_index(vertexes, vertex)
 
         assert actual_index == 1
+
+
+def find_shortest_paths(graph, source, expected_dist, expected_previous):
+    actual_previous, actual_dist = shortest_paths_for_dag(graph, source)
+
+    assert actual_dist == expected_dist
+    assert actual_previous == expected_previous
 
 
 def make_graph():

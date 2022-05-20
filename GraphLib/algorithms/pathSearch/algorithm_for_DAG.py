@@ -61,13 +61,12 @@ def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source: int) -> (
     from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import \
         find_vertex_index, update_distances
 
-    # TODO: починить из-за вершин с произвольными названиями
     nodes_count = len(graph.adjacency_lists.keys())
     dist = {}
     for v in graph.get_nodes():
         dist[v] = math.inf
     dist[source] = 0
-    prev = {source: -1}
+    prev = {source: None}
 
     source_index = find_vertex_index(sorted_vertexes, source)
 

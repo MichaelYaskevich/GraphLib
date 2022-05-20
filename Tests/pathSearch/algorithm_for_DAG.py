@@ -40,10 +40,6 @@ class Algorithm_for_DAG(unittest.TestCase):
         find_shortest_paths(make_graph2(), 1,
                             {1: 0, 2: 10, 3: 50, 4: 30, 5: 60},
                             {1: None, 2: 1, 3: 4, 4: 1, 5: 3})
-        # TODO: починить тест
-        # find_shortest_paths(make_graph3(), 1,
-        #                     {1: 0, 2: 1, 3: 2, 4: 5, 5: 5, 6: 5, 7: 7, 8: 9},
-        #                     {1: None, 2: 1, 3: 1, 4: 1, 5: 2, 6: 3, 7: 4, 8: 7})
         find_shortest_paths(make_graph4(), 1,
                             {1: 0, 2: 12, 3: 24, 4: 36, 5: 12, 6: 30, 7: 56},
                             {1: None, 2: 1, 3: 2, 4: 3, 5: 1, 6: 1, 7: 4})

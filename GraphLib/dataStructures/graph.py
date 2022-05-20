@@ -33,5 +33,5 @@ class Graph:
         self.nodes_to_edge_dict[(first_node, second_node)] = edge
         self.nodes_to_edge_dict[(second_node, first_node)] = edge
 
-    def get_incident_edge(self, start_node, end_node) -> Edge:
-        return self.nodes_to_edge_dict[(start_node, end_node)]
+    def get_incident_edge(self, first_node, second_node) -> Edge:
+        return self.nodes_to_edge_dict[(first_node, second_node)]

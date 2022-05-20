@@ -32,7 +32,7 @@ class Test(unittest.TestCase):
         try:
             graph.add_node(1)
             assert False
-        except ValueError as e:
+        except ValueError:
             assert True
 
     def testFailsWhenAddingAlreadyExistingEdge(self):

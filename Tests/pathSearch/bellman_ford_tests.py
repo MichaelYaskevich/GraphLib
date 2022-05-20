@@ -16,10 +16,6 @@ class Bellman_Ford(unittest.TestCase):
         find_shortest_paths(make_graph2(), 1,
                             {1: 0, 2: 10, 3: 50, 4: 30, 5: 60},
                             {1: None, 2: 1, 3: 4, 4: 1, 5: 3})
-        # TODO: починить тест
-        # find_shortest_paths(make_graph3(), 0,
-        #                     {0: 0, 1: 1, 2: 2, 3: 5, 4: 5, 5: 7, 6: 7, 7: 9},
-        #                     {0: None, 1: 0,  2: 0, 3: 0, 4: 1, 5: 2, 6: 3, 7: 6})
         find_shortest_paths(make_graph4(), 1,
                             {1: 0, 2: 12, 3: 24, 4: 36, 5: 12, 6: 30, 7: 56},
                             {1: None, 2: 1, 3: 2, 4: 3, 5: 1, 6: 1, 7: 4})

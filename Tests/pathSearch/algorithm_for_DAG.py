@@ -7,9 +7,25 @@ from GraphLib.dataStructures.edge import Edge
 
 
 class Algorithm_for_DAG(unittest.TestCase):
-    def test_topological_sort(self):
-        # TODO: topological_sort()
-        pass
+    def test_topological_sort_no_cycle(self):
+        adjacency_lists = {'a': ['b', 'c'], 'b': ['c'], 'c': []}
+
+        sorted_vertexes = topological_sort(adjacency_lists)
+
+        assert sorted_vertexes == ['a', 'b', 'c']
+
+    def test_topological_sort_with_cycle(self):
+        adjacency_lists = {'a': ['b'], 'b': ['c'], 'c': ['a']}
+        try:
+            topological_sort(adjacency_lists)
+        except CycleError as e:
+            assert e.args[0] == "There is a cycle"
+
+        adjacency_lists = {'a': ['b'], 'b': ['c'], 'c': ['d'], 'd': ['b']}
+        try:
+            topological_sort(adjacency_lists)
+        except CycleError as e:
+            assert e.args[0] == "There is a cycle"
 
     def test_find_shortest_paths(self):
         # TODO: find_shortest_paths()
@@ -45,13 +61,7 @@ class Algorithm_for_DAG(unittest.TestCase):
         assert visited_queue.get() == 'b'
 
     def test_update_distances(self):
-        graph = DiGraph()
-        graph.add_node('a')
-        graph.add_node('b')
-        graph.add_node('c')
-        graph.add_edge(Edge('a', 'b', 1))
-        graph.add_edge(Edge('b', 'c', 2))
-        graph.add_edge(Edge('a', 'c', 4))
+        graph = make_graph()
         distances = {'a': 0, 'b': 1, 'c': 4}
         previous = {}
 
@@ -66,3 +76,15 @@ class Algorithm_for_DAG(unittest.TestCase):
         actual_index = find_vertex_index(vertexes, vertex)
 
         assert actual_index == 1
+
+
+def make_graph():
+    graph = DiGraph()
+    graph.add_node('a')
+    graph.add_node('b')
+    graph.add_node('c')
+    graph.add_edge(Edge('a', 'b', 1))
+    graph.add_edge(Edge('b', 'c', 2))
+    graph.add_edge(Edge('a', 'c', 4))
+
+    return graph

@@ -1,20 +1,20 @@
 import math
 
+from GraphLib.dataStructures.di_graph import DiGraph
 
-def initialise_matrix_of_distances(graph):
-    node_count = len(graph.adjacency_lists.keys())
-    # wrong initialization
-    # TODO: remove initialization
-    distances = []
-    for i in range(node_count):
-        distances.append([])
-        for j in range(node_count):
-            distances[i] = math.inf
 
-    for a, b in graph.edges():
-        distances[a][b] = graph.edge_weight((a, b))
+def initialise_matrix_of_distances(graph: DiGraph):
+    distances = {}
+    for i in graph.get_nodes():
+        distances[i] = ({})
+        for j in graph.get_nodes():
+            distances[i][j] = math.inf
 
-    for v in graph.adjacency_lists.keys():
+    for e in graph.get_edges():
+        a, b = e
+        distances[a][b] = e.weight
+
+    for v in graph.get_nodes():
         distances[v][v] = 0
 
     return distances

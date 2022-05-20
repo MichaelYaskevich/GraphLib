@@ -1,21 +1,24 @@
 import queue
 
+from GraphLib.dataStructures.di_graph import DiGraph
+
 
 def initialize_input_degrees(adjacency_lists):
-    nodes_count = len(adjacency_lists.keys())
-    deg_in_list = [0] * nodes_count
+    deg_in_dict = {}
+    for v in adjacency_lists.keys():
+        deg_in_dict[v] = 0
 
-    for vertex in range(nodes_count):
+    for vertex in adjacency_lists.keys():
         for neighbor in adjacency_lists[vertex]:
-            deg_in_list[neighbor - 1] += 1
+            deg_in_dict[neighbor] += 1
 
-    return deg_in_list
+    return deg_in_dict
 
 
-def initialize_queue(deg_in_list, nodes_count):
+def initialize_queue(deg_in_list, nodes):
     q = queue.Queue()
 
-    for vertex in range(nodes_count):
+    for vertex in nodes:
         if deg_in_list[vertex] == 0:
             q.put(vertex)
 
@@ -23,23 +26,23 @@ def initialize_queue(deg_in_list, nodes_count):
 
 
 def visit(deg_in_list, vertex, visited_queue):
-    deg_in_list[vertex - 1] -= 1
-    if deg_in_list[vertex - 1] == 0:
-        visited_queue.put(vertex - 1)
+    deg_in_list[vertex] -= 1
+    if deg_in_list[vertex] == 0:
+        visited_queue.put(vertex)
 
 
-def update_distances(graph, distances, previous, vertex):
+def update_distances(graph: DiGraph, distances: dict, previous: dict, vertex):
     for w in graph.adjacency_lists[vertex]:
-        weight = graph.edge_weight((vertex, w))
-        if distances[vertex] + weight < distances[w - 1]:
-            distances[w - 1] = distances[vertex] + weight
-            previous[w - 1] = vertex
+        edge = graph.get_incident_edge(vertex, w)
+        if distances[vertex] + edge.weight < distances[w]:
+            distances[w] = distances[vertex] + edge.weight
+            previous[w] = vertex
 
 
 def find_vertex_index(vertexes, vertex):
     index = -1
     for (i, v) in enumerate(vertexes):
-        if v == vertex - 1:
+        if v == vertex:
             index = i
             break
 

@@ -18,9 +18,9 @@ def shortest_paths_bellman_ford(graph: DiGraph, source: int) -> (dict, dict):
 
     previous = {source: None}
     dist = initialise_distances(
-        graph.adjacency_lists.key(), source)
+        graph.get_nodes(), source)
 
-    for _ in range(1, len(graph.edges())):
+    for _ in range(1, len(graph.get_edges())):
         update_distances(graph, dist, previous)
 
     find_negative_cycle(graph, dist, previous)

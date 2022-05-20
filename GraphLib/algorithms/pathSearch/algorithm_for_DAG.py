@@ -33,10 +33,8 @@ def topological_sort(adjacency_lists):
     from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import \
         initialize_input_degrees, initialize_queue, visit
 
-    nodes_count = len(adjacency_lists)
-
     deg_in = initialize_input_degrees(adjacency_lists)
-    visited = initialize_queue(deg_in, nodes_count)
+    visited = initialize_queue(deg_in, adjacency_lists.keys())
     sorted = []
 
     while visited.qsize() != 0:
@@ -47,7 +45,8 @@ def topological_sort(adjacency_lists):
 
     if len(sorted) == len(adjacency_lists.keys()):
         return sorted
-    raise CycleError("")
+    # TODO: выводить цикл, например, найденный через bfs
+    raise CycleError("There is a cycle")
 
 
 def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source: int) -> (dict, dict):
@@ -62,10 +61,13 @@ def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source: int) -> (
     from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import \
         find_vertex_index, update_distances
 
+    # TODO: починить из-за вершин с произвольными названиями
     nodes_count = len(graph.adjacency_lists.keys())
-    dist = [math.inf] * nodes_count
-    dist[source - 1] = 0
-    prev = {source - 1: -1}
+    dist = {}
+    for v in graph.get_nodes():
+        dist[v] = math.inf
+    dist[source] = 0
+    prev = {source: -1}
 
     source_index = find_vertex_index(sorted_vertexes, source)
 

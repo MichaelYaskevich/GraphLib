@@ -18,17 +18,20 @@ class Algorithm_for_DAG(unittest.TestCase):
         try:
             topological_sort(adjacency_lists)
         except CycleError as e:
-            assert e.args[0] == "There is a cycle"
+            assert e.args[0] == "There is a cycle a-b-c-a"
 
         adjacency_lists = {'a': ['b'], 'b': ['c'], 'c': ['d'], 'd': ['b']}
         try:
             topological_sort(adjacency_lists)
         except CycleError as e:
-            assert e.args[0] == "There is a cycle"
+            assert e.args[0] == "There is a cycle b-c-d-b"
 
-    def test_find_shortest_paths(self):
-        # TODO: find_shortest_paths()
-        pass
+    def test_get_cycle(self):
+        expected = ['a', 'b', 'c', 'a']
+
+        actual = get_cycle({'a': ['b'], 'b': ['c'], 'c': ['a']})
+
+        assert actual == expected
 
     def test_shortest_paths_for_dag(self):
         find_shortest_paths(make_graph(), 'a',

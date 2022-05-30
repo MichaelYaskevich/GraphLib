@@ -1,5 +1,7 @@
 import math
+import queue
 
+from GraphLib.algorithms.pathSearch.bellman_ford_help_functions import build_cycle
 from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.exception import CycleError
 
@@ -45,8 +47,33 @@ def topological_sort(adjacency_lists):
 
     if len(sorted) == len(adjacency_lists.keys()):
         return sorted
-    # TODO: выводить цикл, например, найденный через bfs
-    raise CycleError("There is a cycle")
+
+    message = '-'.join(get_cycle(adjacency_lists))
+    raise CycleError(f"There is a cycle {message}")
+
+
+def get_cycle(adjacency_lists):
+    prev = {}
+    if len(adjacency_lists) < 2:
+        return None
+    q = queue.Queue()
+    visited = {}
+    for node in adjacency_lists.keys():
+        if q.qsize() == 0:
+            q.put(node)
+            visited[node] = True
+        else:
+            visited[node] = False
+    while q.qsize() != 0:
+        node = q.get()
+        for child in adjacency_lists[node]:
+            prev[child] = node
+            if visited[child]:
+                return build_cycle(node, child, prev)
+            else:
+                q.put(child)
+                visited[child] = True
+    return None
 
 
 def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source: int) -> (dict, dict):

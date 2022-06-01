@@ -1,4 +1,3 @@
-import math
 import queue
 
 from GraphLib.algorithms.pathSearch.bellman_ford_help_functions import build_cycle
@@ -6,10 +5,9 @@ from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.exception import CycleError
 
 
-def shortest_paths_for_dag(graph: DiGraph, source: int) -> (dict, dict):
+def find_shortest_paths(graph: DiGraph, source):
     """
-    Finds shortest paths in directed acyclic graph (DAG)
-    from source vertex to all other nodes.
+    Finds shortest paths in directed acyclic graph (DAG) from source vertex to all other nodes.
 
     Graph can have edges with negative weights.
 
@@ -19,9 +17,12 @@ def shortest_paths_for_dag(graph: DiGraph, source: int) -> (dict, dict):
     :return: shortest path tree with distances
     """
 
-    sorted_vertexes = topological_sort(graph.adjacency_lists)
+    from GraphLib.algorithms.pathSearch.path_search_help_functions import get_paths_from_source_to_all
+    from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import get_prev_and_dist
 
-    return find_shortest_paths(sorted_vertexes, graph, source)
+    source = str(source)
+    prev, dist = get_prev_and_dist(graph, source)
+    return get_paths_from_source_to_all(source, prev, dist)
 
 
 def topological_sort(adjacency_lists):
@@ -53,6 +54,11 @@ def topological_sort(adjacency_lists):
 
 
 def get_cycle(adjacency_lists):
+    """
+    Finds cycle in graph
+    :param adjacency_lists: representation of graph
+    :return: cycle as list of nodes or None
+    """
     prev = {}
     if len(adjacency_lists) < 2:
         return None
@@ -76,29 +82,10 @@ def get_cycle(adjacency_lists):
     return None
 
 
-def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source: int) -> (dict, dict):
-    """
-    Finds shortest paths from source vertex to all other nodes.
+def find_shortest_path(graph: DiGraph, source, destination):
+    from GraphLib.algorithms.pathSearch.path_search_help_functions import get_path
+    from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import get_prev_and_dist
 
-    :param sorted_vertexes: vertexes in topological order
-    :param graph: Digraph
-    :param source: first vertex in path
-    :return: shortest path tree with distances
-    """
-    from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import \
-        find_vertex_index, update_distances
-
-    nodes_count = len(graph.adjacency_lists.keys())
-    dist = {}
-    for v in graph.get_nodes():
-        dist[v] = math.inf
-    dist[source] = 0
-    prev = {source: None}
-
-    source_index = find_vertex_index(sorted_vertexes, source)
-
-    for k in range(source_index, nodes_count):
-        vk = sorted_vertexes[k]
-        update_distances(graph, dist, prev, vk)
-
-    return prev, dist
+    source, destination = str(source), str(destination)
+    prev, dist = get_prev_and_dist(graph, source)
+    return get_path(source, destination, prev), dist[destination]

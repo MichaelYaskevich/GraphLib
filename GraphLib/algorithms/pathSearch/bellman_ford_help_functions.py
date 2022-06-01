@@ -52,3 +52,16 @@ def initialise_distances(nodes, source):
     dist[source] = 0
 
     return dist
+
+
+def get_prev_and_dist(graph: DiGraph, source) -> (dict, dict):
+    previous = {source: None}
+    dist = initialise_distances(
+        graph.get_nodes(), source)
+
+    for _ in range(1, len(graph.get_edges())):
+        update_distances(graph, dist, previous)
+
+    find_negative_cycle(graph, dist, previous)
+
+    return previous, dist

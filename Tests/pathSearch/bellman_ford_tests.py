@@ -1,6 +1,6 @@
 import unittest
 
-from GraphLib.algorithms.pathSearch.bellman_ford import shortest_paths_bellman_ford
+
 from GraphLib.algorithms.pathSearch.bellman_ford_help_functions import *
 from Tests.dataStructures.graph_making_functions import *
 
@@ -8,18 +8,18 @@ from Tests.dataStructures.graph_making_functions import *
 class Bellman_Ford(unittest.TestCase):
     def test_shortest_paths_bellman_ford(self):
         find_shortest_paths(make_graph(), 'a',
-                            {'a': 0, 'b': 2, 'c': 1},
-                            {'a': None, 'b': 'c', 'c': 'a'})
+                          {'a': 0, 'b': 2, 'c': 1},
+                          {'a': None, 'b': 'c', 'c': 'a'})
         find_shortest_paths(make_graph1(), 1,
-                            {1: 0, 2: 4, 3: 4, 4: 11},
-                            {1: None, 2: 3, 3: 1, 4: 3})
+                          {1: 0, 2: 4, 3: 4, 4: 11},
+                          {1: None, 2: 3, 3: 1, 4: 3})
         find_shortest_paths(make_graph2(), 1,
-                            {1: 0, 2: 10, 3: 50, 4: 30, 5: 60},
-                            {1: None, 2: 1, 3: 4, 4: 1, 5: 3})
-        find_shortest_paths(make_graph4(), 1,
+                          {1: 0, 2: 10, 3: 50, 4: 30, 5: 60},
+                          {1: None, 2: 1, 3: 4, 4: 1, 5: 3})
+        find_shortest_paths(make_graph3(), 1,
                             {1: 0, 2: 12, 3: 24, 4: 36, 5: 12, 6: 30, 7: 56},
                             {1: None, 2: 1, 3: 2, 4: 3, 5: 1, 6: 1, 7: 4})
-        find_shortest_paths(make_graph5(), 1,
+        find_shortest_paths(make_graph4(), 1,
                             {1: 0, 2: 4, 3: 2, 4: 9, 5: 5, 6: 20},
                             {1: None, 2: 1, 3: 1, 4: 5, 5: 3, 6: 4})
 
@@ -111,7 +111,7 @@ class Bellman_Ford(unittest.TestCase):
 
 
 def find_shortest_paths(graph, source, expected_dist, expected_previous):
-    actual_previous, actual_dist = shortest_paths_bellman_ford(graph, source)
+    actual_previous, actual_dist = get_prev_and_dist(graph, source)
 
     assert actual_dist == expected_dist
     assert actual_previous == expected_previous

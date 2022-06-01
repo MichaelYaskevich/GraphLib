@@ -22,10 +22,13 @@ class Graph:
 
     def add_edge(self, edge: Edge) -> None:
         first_node, second_node = edge
-        if first_node not in self.adjacency_lists or second_node not in self.adjacency_lists:
-            raise ValueError("First_node or second_node aren't present in graph")
+        if (first_node not in self.adjacency_lists
+                or second_node not in self.adjacency_lists):
+            raise ValueError(
+                "First_node or second_node aren't present in graph")
 
-        if first_node in self.adjacency_lists[second_node] or second_node in self.adjacency_lists[first_node]:
+        if (first_node in self.adjacency_lists[second_node]
+                or second_node in self.adjacency_lists[first_node]):
             raise ValueError("Graph already contains such edge")
 
         self.adjacency_lists[first_node].append(second_node)

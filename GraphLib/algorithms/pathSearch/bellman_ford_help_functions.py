@@ -54,7 +54,7 @@ def initialise_distances(nodes, source):
     return dist
 
 
-def get_prev_and_dist(graph: DiGraph, source) -> (dict, dict):
+def get_prev_and_dist(graph: DiGraph, source):
     previous = {source: None}
     dist = initialise_distances(
         graph.get_nodes(), source)

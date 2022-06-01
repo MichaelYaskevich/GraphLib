@@ -4,7 +4,8 @@ import math
 from GraphLib.dataStructures.di_graph import DiGraph
 
 
-def visit(current_node, visited, graph: DiGraph, dist, previous, sorted_nodes):
+def visit(current_node, visited, graph: DiGraph,
+          dist, previous, sorted_nodes):
     visited.add(current_node)
     for neighbor in graph.adjacency_lists[current_node]:
         if neighbor not in visited:
@@ -13,7 +14,8 @@ def visit(current_node, visited, graph: DiGraph, dist, previous, sorted_nodes):
                             dist, previous, sorted_nodes)
 
 
-def update_distance(current_node, neighbor, weight, dist, previous, sorted_nodes):
+def update_distance(current_node, neighbor,
+                    weight, dist, previous, sorted_nodes):
     new_dist = dist[current_node] + weight
     if dist[neighbor] > new_dist:
         previous[neighbor] = current_node
@@ -31,7 +33,7 @@ def initialise_distances(nodes, source: str):
     return dist
 
 
-def get_prev_and_dist(graph: DiGraph, source: str) -> (dict, dict):
+def get_prev_and_dist(graph: DiGraph, source: str):
     previous = {source: None}
     sorted_nodes = [(0, source)]
     visited = set()

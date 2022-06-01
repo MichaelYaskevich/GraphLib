@@ -51,7 +51,7 @@ def find_vertex_index(vertexes, vertex):
     return index
 
 
-def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source) -> (dict, dict):
+def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source):
     """
     Finds shortest paths from source vertex to all other nodes.
 
@@ -77,7 +77,7 @@ def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source) -> (dict,
     return prev, dist
 
 
-def get_prev_and_dist(graph: DiGraph, source) -> (dict, dict):
+def get_prev_and_dist(graph: DiGraph, source):
     sorted_vertexes = topological_sort(graph.adjacency_lists)
 
     return find_shortest_paths(sorted_vertexes, graph, source)

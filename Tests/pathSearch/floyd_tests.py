@@ -1,6 +1,7 @@
 import unittest
 
-from GraphLib.algorithms.pathSearch.floyd import find_shortest_paths_from_all_to_all, get_path
+from GraphLib.algorithms.pathSearch.floyd \
+    import find_shortest_paths_from_all_to_all, get_path
 from GraphLib.algorithms.pathSearch.floyd_help_functions import *
 from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.edge import Edge

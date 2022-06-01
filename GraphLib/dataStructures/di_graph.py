@@ -8,8 +8,10 @@ class DiGraph(Graph):
 
     def add_edge(self, edge: Edge) -> None:
         start, end = edge
-        if start not in self.adjacency_lists or end not in self.adjacency_lists:
-            raise ValueError("Start node or end node aren't present in adjacency list")
+        if (start not in self.adjacency_lists
+                or end not in self.adjacency_lists):
+            raise ValueError(
+                "Start node or end node aren't present in adjacency list")
 
         if (start, end) in self.nodes_to_edge_dict:
             raise ValueError("Such edge already exists")

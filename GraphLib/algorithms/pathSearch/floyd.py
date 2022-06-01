@@ -1,16 +1,19 @@
 from GraphLib.dataStructures.di_graph import DiGraph
 
 
-def find_shortest_paths_from_all_to_all(graph: DiGraph) -> (dict, dict):
+def find_shortest_paths_from_all_to_all(graph: DiGraph):
     """
-    This algorithm finds shortest paths in a directed weighted graph with positive or negative edge weights
+    This algorithm finds shortest paths in a directed weighted graph
+        with positive or negative edge weights
 
     :param graph: DiGraph
     :return: matrix of distances and matrix of previous
     """
 
     from GraphLib.algorithms.pathSearch.floyd_help_functions import \
-        initialise_matrix_of_distances, update_distance, initialise_prior_matrix
+        initialise_matrix_of_distances, \
+        update_distance, \
+        initialise_prior_matrix
 
     distances = initialise_matrix_of_distances(graph)
 
@@ -72,4 +75,3 @@ def get_path(source, destination, prior_matrix):
     for v in get_path(intermediate_node, destination, prior_matrix):
         path.append(v)
     return path
-

@@ -16,7 +16,8 @@ class Test(unittest.TestCase):
         graph.add_node(2)
         graph.add_edge(Edge(1, 2, 3))
         assert 2 in graph.adjacency_lists[1] \
-               and 1 in graph.adjacency_lists[2] and graph.get_incident_edge(1, 2).weight == 3
+            and 1 in graph.adjacency_lists[2] \
+               and graph.get_incident_edge(1, 2).weight == 3
 
     def testGettingAdjacentNodes(self):
         graph = Graph()

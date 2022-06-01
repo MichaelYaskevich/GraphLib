@@ -8,14 +8,14 @@ from Tests.dataStructures.graph_making_functions import *
 class Dijkstra(unittest.TestCase):
     def test_dijkstra_shortest_paths(self):
         find_shortest_paths(make_graph(), 'a',
-                          {'a': 0, 'b': 1, 'c': 2},
-                          {'a': None, 'b': 'a', 'c': 'b'})
+                            {'a': 0, 'b': 1, 'c': 2},
+                            {'a': None, 'b': 'a', 'c': 'b'})
         find_shortest_paths(make_graph1(), 1,
-                          {1: 0, 2: 4, 3: 4, 4: 11},
-                          {1: None, 2: 3, 3: 1, 4: 3})
+                            {1: 0, 2: 4, 3: 4, 4: 11},
+                            {1: None, 2: 3, 3: 1, 4: 3})
         find_shortest_paths(make_graph2(), 1,
-                          {1: 0, 2: 10, 3: 50, 4: 30, 5: 60},
-                          {1: None, 2: 1, 3: 4, 4: 1, 5: 3})
+                            {1: 0, 2: 10, 3: 50, 4: 30, 5: 60},
+                            {1: None, 2: 1, 3: 4, 4: 1, 5: 3})
         find_shortest_paths(make_graph3(), 1,
                             {1: 0, 2: 12, 3: 24, 4: 36, 5: 12, 6: 30, 7: 56},
                             {1: None, 2: 1, 3: 2, 4: 3, 5: 1, 6: 1, 7: 4})
@@ -39,7 +39,8 @@ class Dijkstra(unittest.TestCase):
         weight = 2
         previous = {neighbor: 0}
         sorted_nodes = [(2, 3), (4, 4)]
-        update_distance(current_node, neighbor, weight, dist, previous, sorted_nodes)
+        update_distance(current_node, neighbor, weight,
+                        dist, previous, sorted_nodes)
 
         new_dist = dist[current_node] + weight
         assert new_dist == 3
@@ -54,7 +55,8 @@ class Dijkstra(unittest.TestCase):
         weight = 4
         previous = {neighbor: 0}
         sorted_nodes = [(2, 3), (4, 4)]
-        update_distance(current_node, neighbor, weight, dist, previous, sorted_nodes)
+        update_distance(current_node, neighbor, weight,
+                        dist, previous, sorted_nodes)
 
         new_dist = dist[current_node] + weight
         assert new_dist == 5

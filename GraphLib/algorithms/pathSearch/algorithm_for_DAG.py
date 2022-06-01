@@ -1,13 +1,15 @@
 import queue
 
-from GraphLib.algorithms.pathSearch.bellman_ford_help_functions import build_cycle
+from GraphLib.algorithms.pathSearch.bellman_ford_help_functions \
+    import build_cycle
 from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.exception import CycleError
 
 
 def find_shortest_paths(graph: DiGraph, source):
     """
-    Finds shortest paths in directed acyclic graph (DAG) from source vertex to all other nodes.
+    Finds shortest paths in directed acyclic graph (DAG)
+        from source vertex to all other nodes.
 
     Graph can have edges with negative weights.
 
@@ -17,8 +19,10 @@ def find_shortest_paths(graph: DiGraph, source):
     :return: shortest path tree with distances
     """
 
-    from GraphLib.algorithms.pathSearch.path_search_help_functions import get_paths_from_source_to_all
-    from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import get_prev_and_dist
+    from GraphLib.algorithms.pathSearch.path_search_help_functions \
+        import get_paths_from_source_to_all
+    from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods \
+        import get_prev_and_dist
 
     source = str(source)
     prev, dist = get_prev_and_dist(graph, source)
@@ -29,7 +33,8 @@ def topological_sort(adjacency_lists):
     """
     Sort vertexes in topological order
 
-    :param adjacency_lists: dictionary with vertexes as keys and lists of adjacent vertexes as values
+    :param adjacency_lists: dictionary with vertexes as keys
+        and lists of adjacent vertexes as values
     :return: vertexes in topological order
     :raises CycleError if graph contains cycle
     """
@@ -83,8 +88,10 @@ def get_cycle(adjacency_lists):
 
 
 def find_shortest_path(graph: DiGraph, source, destination):
-    from GraphLib.algorithms.pathSearch.path_search_help_functions import get_path
-    from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import get_prev_and_dist
+    from GraphLib.algorithms.pathSearch.path_search_help_functions \
+        import get_path
+    from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods \
+        import get_prev_and_dist
 
     source, destination = str(source), str(destination)
     prev, dist = get_prev_and_dist(graph, source)

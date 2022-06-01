@@ -8,14 +8,14 @@ from Tests.dataStructures.graph_making_functions import *
 class Bellman_Ford(unittest.TestCase):
     def test_shortest_paths_bellman_ford(self):
         find_shortest_paths(make_graph(), 'a',
-                          {'a': 0, 'b': 2, 'c': 1},
-                          {'a': None, 'b': 'c', 'c': 'a'})
+                            {'a': 0, 'b': 2, 'c': 1},
+                            {'a': None, 'b': 'c', 'c': 'a'})
         find_shortest_paths(make_graph1(), 1,
-                          {1: 0, 2: 4, 3: 4, 4: 11},
-                          {1: None, 2: 3, 3: 1, 4: 3})
+                            {1: 0, 2: 4, 3: 4, 4: 11},
+                            {1: None, 2: 3, 3: 1, 4: 3})
         find_shortest_paths(make_graph2(), 1,
-                          {1: 0, 2: 10, 3: 50, 4: 30, 5: 60},
-                          {1: None, 2: 1, 3: 4, 4: 1, 5: 3})
+                            {1: 0, 2: 10, 3: 50, 4: 30, 5: 60},
+                            {1: None, 2: 1, 3: 4, 4: 1, 5: 3})
         find_shortest_paths(make_graph3(), 1,
                             {1: 0, 2: 12, 3: 24, 4: 36, 5: 12, 6: 30, 7: 56},
                             {1: None, 2: 1, 3: 2, 4: 3, 5: 1, 6: 1, 7: 4})
@@ -85,7 +85,8 @@ class Bellman_Ford(unittest.TestCase):
         try:
             build_cycle(3, 1, [])
         except Exception as e:
-            assert e.args[0] == "There isn't enough information to build a cycle"
+            assert e.args[0] == \
+                   "There isn't enough information to build a cycle"
 
     def test_build_cycle(self):
         prev = 3

@@ -1,6 +1,6 @@
 import unittest
 
-from GraphLib.algorithms.pathSearch.floyd import floyd_shortest_paths, get_path
+from GraphLib.algorithms.pathSearch.floyd import find_shortest_paths_from_all_to_all, get_path
 from GraphLib.algorithms.pathSearch.floyd_help_functions import *
 from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.edge import Edge
@@ -9,7 +9,7 @@ from GraphLib.dataStructures.edge import Edge
 class Dijkstra(unittest.TestCase):
     def test_floyd_shortest_paths(self):
         graph = make_graph()
-        distances_actual, _ = floyd_shortest_paths(graph)
+        distances_actual, _ = find_shortest_paths_from_all_to_all(graph)
 
         distances_expected = {1: {1: 0, 2: 1, 3: 2, 5: 4},
                               2: {1: math.inf, 2: 0, 3: 1, 5: 3},
@@ -20,7 +20,7 @@ class Dijkstra(unittest.TestCase):
 
     def test_get_path(self):
         graph = make_graph()
-        _, prior_matrix = floyd_shortest_paths(graph)
+        _, prior_matrix = find_shortest_paths_from_all_to_all(graph)
         assert get_path(2, 1, prior_matrix) is None
         assert get_path(3, 1, prior_matrix) is None
         assert get_path(3, 2, prior_matrix) is None

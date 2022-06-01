@@ -1,6 +1,5 @@
 from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.edge import Edge
-from GraphLib.dataStructures.graph import Graph
 
 
 def make_graph1():
@@ -41,33 +40,6 @@ def make_graph2():
 
 def make_graph3():
     graph = DiGraph()
-    for i in range(0, 8):
-        graph.add_node(i)
-    graph.add_edge(Edge(0, 1, 1))
-    graph.add_edge(Edge(0, 2, 2))
-    graph.add_edge(Edge(0, 3, 5))
-    graph.add_edge(Edge(2, 5, 5))
-    graph.add_edge(Edge(3, 6, 2))
-    graph.add_edge(Edge(1, 5, 11))
-    graph.add_edge(Edge(2, 4, 9))
-    graph.add_edge(Edge(2, 6, 16))
-    graph.add_edge(Edge(4, 7, 18))
-    graph.add_edge(Edge(5, 7, 13))
-    graph.add_edge(Edge(6, 7, 2))
-
-    return graph
-    # source = 0
-    # path 0-1: {0, 1}, length = 1
-    # path 0-2: {0, 2}, length = 2
-    # path 0-3: {0, 3}, length = 5
-    # path 0-4: {0, 1, 4}, length = 5
-    # path 0-5: {0, 2, 5}, length = 7
-    # path 0-6: {0, 3, 6}, length = 7
-    # path 0-7: {0, 3, 6, 7}, length = 9
-
-
-def make_graph4():
-    graph = DiGraph()
     for i in range(7):
         graph.add_node(i + 1)
     graph.add_edge(Edge(1, 5, 12))
@@ -87,7 +59,7 @@ def make_graph4():
     # path 1-7: {1, 2, 3, 4, 7}, length = 56
 
 
-def make_graph5():
+def make_graph4():
     graph = DiGraph()
     for i in range(6):
         graph.add_node(i + 1)

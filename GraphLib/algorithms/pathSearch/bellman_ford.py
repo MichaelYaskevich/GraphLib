@@ -1,8 +1,8 @@
 from GraphLib.dataStructures.di_graph import DiGraph
 
 
-def shortest_paths_bellman_ford(graph: DiGraph, source: int) -> (dict, dict):
-    '''
+def find_shortest_paths(graph: DiGraph, source):
+    """
     Finds shortest paths from source vertex to all other nodes.
 
     Graph can have edges with negative weights.
@@ -11,19 +11,20 @@ def shortest_paths_bellman_ford(graph: DiGraph, source: int) -> (dict, dict):
 
     :param graph: Digraph
     :param source: first vertex in path
-        :return: shortest path tree with distances
-    '''
-    from GraphLib.algorithms.pathSearch.bellman_ford_help_functions import \
-        initialise_distances, update_distances, find_negative_cycle
+    :return: shortest paths with distances
+    """
+    from GraphLib.algorithms.pathSearch.path_search_help_functions import get_paths_from_source_to_all
+    from GraphLib.algorithms.pathSearch.bellman_ford_help_functions import get_prev_and_dist
 
-    previous = {source: None}
-    dist = initialise_distances(
-        graph.get_nodes(), source)
+    source = str(source)
+    prev, dist = get_prev_and_dist(graph, source)
+    return get_paths_from_source_to_all(source, prev, dist)
 
-    for _ in range(1, len(graph.get_edges())):
-        update_distances(graph, dist, previous)
 
-    find_negative_cycle(graph, dist, previous)
+def find_shortest_path(graph: DiGraph, source, destination):
+    from GraphLib.algorithms.pathSearch.path_search_help_functions import get_path
+    from GraphLib.algorithms.pathSearch.bellman_ford_help_functions import get_prev_and_dist
 
-    return previous, dist
-
+    source, destination = str(source), str(destination)
+    prev, dist = get_prev_and_dist(graph, source)
+    return get_path(source, destination, prev), dist[destination]

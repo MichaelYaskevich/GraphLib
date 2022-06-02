@@ -44,7 +44,6 @@ if __name__ == '__main__':
     subparsers = parser.add_subparsers(help='')
 
     reporter_parser = subparsers.add_parser('report', description='Make a pdf report about algorithms in GraphLib',
-                    f'or \n {graph_weight_matrix_file_format}',
                                             formatter_class=argparse.RawDescriptionHelpFormatter)
     reporter_parser.add_argument('path', type=str, nargs=1, help='Path where your report will be saved')
 
@@ -63,7 +62,6 @@ if __name__ == '__main__':
                                   choices=['dijkstra', 'bellman_ford', 'algorithm_for_dag', 'floyd'],
                                   help=f'algorithm you want to use, choices are: '
                                        f'dijkstra, bellman_ford, algorithm_for_dag, floyd')
-                             f'algorithm_for_dag, floyd')
     algs_all_paths = {'dijkstra': dijkstra.find_shortest_paths,
                       'bellman_ford': bellman_ford.find_shortest_paths,
                       'algorithm_for_dag':

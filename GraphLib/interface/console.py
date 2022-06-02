@@ -23,13 +23,13 @@ a
 -'''
 
 graph_weight_matrix_file_format = '''
-Txt file must look like this:\n
-4\n
-0 1 0 1\n
-1 0 2 5\n
-1 3 0 -4\n
-0 0 5 0\n
-1\n
+Txt file can look like this:
+4
+0 1 0 1
+1 0 2 5
+1 3 0 -4
+0 0 5 0
+1
 4
 Nodes count
 {Nodes count} lines which represent graph as weight matrix where '-' means that path doesn't exist
@@ -38,19 +38,29 @@ Destination node
 '''
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        description=f'Use algorithms from console.\nYou can provide algorithm with graph in txt file in any of the next '
-                    f'formats: \n{graph_adjacency_list_file_format} \n or \n {graph_weight_matrix_file_format}',
-        formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('path', type=str, nargs=1, help=f'full path for graph file')
-    parser.add_argument('format', type=str, nargs=1, choices=['al', 'wm'], help='Choose format of graph representation:'
-                                                                                '"al" for adjacency list and "wm" for '
-                                                                                'weight matrix')
-    parser.add_argument('algorithm', type=str, nargs=1,
-                        choices=['dijkstra', 'bellman_ford', 'algorithm_for_dag', 'floyd'],
-                        help=f'algorithm you want to use there are: '
-                             f'dijkstra, bellman_ford, algorithm_for_dag, floyd')
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter)
 
+    subparsers = parser.add_subparsers(help='')
+
+    reporter_parser = subparsers.add_parser('report', description='Make a pdf report about algorithms in GraphLib',
+                                            formatter_class=argparse.RawDescriptionHelpFormatter)
+    reporter_parser.add_argument('path', type=str, nargs=1, help='Path where your report will be saved')
+
+    graph_lib_parser = subparsers.add_parser('find_path', description=f'Use algorithms from console.\nYou can '
+                                                                      f'provide algorithm with graph in txt file in '
+                                                                      f'any of the next '
+                                                                      f'formats: \n{graph_adjacency_list_file_format}'
+                                                                      f'\n\n====OR====\n{graph_weight_matrix_file_format}',
+                                             formatter_class=argparse.RawDescriptionHelpFormatter)
+    graph_lib_parser.add_argument('path', type=str, nargs=1, help=f'full path for graph file')
+    graph_lib_parser.add_argument('format', type=str, nargs=1, choices=['al', 'wm'],
+                                  help='Choose format of graph representation:'
+                                       '"al" for adjacency list and "wm" for '
+                                       'weight matrix')
+    graph_lib_parser.add_argument('algorithm', type=str, nargs=1,
+                                  choices=['dijkstra', 'bellman_ford', 'algorithm_for_dag', 'floyd'],
+                                  help=f'algorithm you want to use, choices are: '
+                                       f'dijkstra, bellman_ford, algorithm_for_dag, floyd')
     algorithms_all_paths = {'dijkstra': dijkstra.find_shortest_paths, 'bellman_ford': bellman_ford.find_shortest_paths,
                             'algorithm_for_dag': algorithm_for_DAG.find_shortest_paths,
                             'floyd': floyd.find_shortest_paths_from_source}

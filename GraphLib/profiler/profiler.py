@@ -1,5 +1,8 @@
 import math
+from random import randint
 from time import time
+
+from GraphLib.generator.generator import generate_random_graph
 
 dummy_runs_count = 5
 average_runs_count = 21
@@ -17,28 +20,43 @@ t_param_values = {
 }
 
 
-def profile(func, args_for_different_setups):
-    for args in args_for_different_setups:
-        times, avg, minimum, std_dev, conf_int = get_profiling_results(func, args)
+def profile(func):
+    args = []
+    for i in range(20):
+        args.append((generate_random_graph(i, i * 2, 0, 1000), randint(0, i)))
+
+    for graph, source in args:
+        times, avg, minimum, std_dev, conf_int = get_profiling_results(func, graph, source)
         print_profiling_results(func, avg, minimum, std_dev, conf_int)
-        ### здесь будет выводить графики
+        # TODO: Сделать вывод графиков
 
 
-def get_profiling_results(func, args):
+def get_profiling_results(func, graph, source):
     for i in range(dummy_runs_count):
-        func(args)
-    start_time = time()
-    times = []
-    for i in range(average_runs_count):
-        current_run_start = time()
-        func(args)
-        times.append(time() - current_run_start)
-    end_time = time()
-    avg_time = (end_time - start_time) / average_runs_count
-    min_time = min(times)
+        func(graph, source)
+    times = get_times(func, graph, source)
+    avg_time = calculate_average_time(times)
+    min_time = calculate_min_time(times)
     std_deviation = calculate_standard_deviation(times, avg_time)
     confidence_interval = calculate_confidence_interval(times, std_deviation)
     return times, avg_time, min_time, std_deviation, confidence_interval
+
+
+def get_times(func, graph, source):
+    times = []
+    for i in range(average_runs_count):
+        current_run_start = time()
+        func(graph, source)
+        times.append(time() - current_run_start)
+    return times
+
+
+def calculate_min_time(times):
+    return min(times)
+
+
+def calculate_average_time(times):
+    return sum(times) / len(times)
 
 
 def calculate_standard_deviation(times, avg_time):

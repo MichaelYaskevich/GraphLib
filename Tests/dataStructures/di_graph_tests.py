@@ -4,13 +4,13 @@ from GraphLib.dataStructures.di_graph import *
 
 
 class Test(unittest.TestCase):
-    def testAddingNodesToDiGraph(self):
+    def test_adding_nodes_to_DiGraph(self):
         graph = DiGraph()
         graph.add_node(1)
         graph.add_node(2)
         assert len(graph.get_nodes()) == 2
 
-    def testAddingDirectedEdgeToGraph(self):
+    def test_adding_directed_edge_to_Graph(self):
         graph = DiGraph()
         graph.add_node(1)
         graph.add_node(2)
@@ -19,7 +19,7 @@ class Test(unittest.TestCase):
                and 1 not in graph.adjacency_lists[2] and \
                graph.get_incident_edge(1, 2).weight == 3
 
-    def testGettingAdjacentNodes(self):
+    def test_getting_adjacent_nodes(self):
         graph = DiGraph()
         graph.add_node(1)
         graph.add_node(2)
@@ -27,7 +27,7 @@ class Test(unittest.TestCase):
         result = graph.get_adjacent_nodes(1)
         assert len(result) == 1 and result[0] == 2
 
-    def testFailsWhenAddingAlreadyExistingNode(self):
+    def test_fails_adding_existing_node(self):
         graph = DiGraph()
         graph.add_node(1)
         try:
@@ -36,7 +36,7 @@ class Test(unittest.TestCase):
         except ValueError:
             assert True
 
-    def testFailsWhenAddingAlreadyExistingEdge(self):
+    def test_fails_adding_existing_edge(self):
         graph = DiGraph()
         graph.add_node(1)
         graph.add_node(2)
@@ -47,7 +47,7 @@ class Test(unittest.TestCase):
         except ValueError:
             assert True
 
-    def testFailsWhenAddingEdgeBetweenNonExistentNodes(self):
+    def test_fails_adding_edge_between_non_existent_nodes(self):
         graph = DiGraph()
         try:
             graph.add_edge(Edge(1, 2, 3))
@@ -55,7 +55,7 @@ class Test(unittest.TestCase):
         except ValueError:
             assert True
 
-    def testTwoEdgesAreNotEqualIfDirectionIsNotEqual(self):
+    def test_two_edges_are_not_equal_if_direction_is_different(self):
         graph = DiGraph()
         graph.add_node(1)
         graph.add_node(2)
@@ -63,7 +63,7 @@ class Test(unittest.TestCase):
         graph.add_edge(Edge(2, 1, 3))
         assert graph.get_incident_edge(1, 2) != graph.get_incident_edge(2, 1)
 
-    def testTwoNodesAreNotAdjacentWhenThereIsOneDirectedEdge(self):
+    def test_two_nodes_are_not_adjacent_when_there_is_one_directed_edge(self):
         graph = DiGraph()
         graph.add_node(1)
         graph.add_node(2)

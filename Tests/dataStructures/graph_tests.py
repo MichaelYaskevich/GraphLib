@@ -4,13 +4,13 @@ from GraphLib.dataStructures.graph import *
 
 
 class Test(unittest.TestCase):
-    def testAddingNodesToGraph(self):
+    def test_adding_nodes_to_graph(self):
         graph = Graph()
         graph.add_node(1)
         graph.add_node(2)
         assert len(graph.get_nodes()) == 2
 
-    def testAddingEdgeToGraph(self):
+    def test_adding_edges_to_graph(self):
         graph = Graph()
         graph.add_node(1)
         graph.add_node(2)
@@ -19,7 +19,7 @@ class Test(unittest.TestCase):
             and 1 in graph.adjacency_lists[2] \
                and graph.get_incident_edge(1, 2).weight == 3
 
-    def testGettingAdjacentNodes(self):
+    def test_getting_adjacent_nodes(self):
         graph = Graph()
         graph.add_node(1)
         graph.add_node(2)
@@ -27,7 +27,7 @@ class Test(unittest.TestCase):
         result = graph.get_adjacent_nodes(1)
         assert len(result) == 1 and result[0] == 2
 
-    def testFailsWhenAddingAlreadyExistingNode(self):
+    def test_fails_adding_existing_node(self):
         graph = Graph()
         graph.add_node(1)
         try:
@@ -36,7 +36,7 @@ class Test(unittest.TestCase):
         except ValueError:
             assert True
 
-    def testFailsWhenAddingAlreadyExistingEdge(self):
+    def test_fails_adding_existing_edge(self):
         graph = Graph()
         graph.add_node(1)
         graph.add_node(2)
@@ -47,7 +47,7 @@ class Test(unittest.TestCase):
         except ValueError:
             assert True
 
-    def testFailsWhenAddingEdgeBetweenNonExistentNodes(self):
+    def test_fails_adding_edge_between_non_existing_nodes(self):
         graph = Graph()
         try:
             graph.add_edge(Edge(1, 2, 3))

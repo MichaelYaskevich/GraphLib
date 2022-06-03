@@ -3,6 +3,7 @@ from random import randint
 from time import time
 
 from GraphLib.generator.generator import generate_random_graph
+from GraphLib.profiler.visualisation import approximate
 
 dummy_runs_count = 5
 average_runs_count = 21
@@ -22,13 +23,17 @@ t_param_values = {
 
 def profile(func):
     args = []
-    for i in range(20):
+    for i in range(2, 22):
         args.append((generate_random_graph(i, i * 2, 0, 1000), randint(0, i)))
-
+    avg_times = []
+    graph_sizes = []
     for graph, source in args:
         times, avg, minimum, std_dev, conf_int = get_profiling_results(func, graph, source)
+        avg_times.append(avg)
+        graph_sizes.append(len(graph.get_nodes()))
         print_profiling_results(func, avg, minimum, std_dev, conf_int)
-        # TODO: Сделать вывод графиков
+
+    approx = approximate(graph_sizes, avg_times)
 
 
 def get_profiling_results(func, graph, source):

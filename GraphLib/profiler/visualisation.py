@@ -29,13 +29,15 @@ def transform_data_for_linear_model(data):
     return PolynomialFeatures(degree=3).fit_transform(transformed_data)
 
 
-# TODO: сделать путь не абсолютным
-# TODO: научится рисовать точки на графиках и вертикальные линии
-def visualize(dictionaries: list, labels: list, path):
+def visualize(data_dictionaries: list, labels: list, points_dictionaries, confidence_intervals, colors, path):
     plt.figure(figsize=(16, 6))
     plt.title("Time performance research")
-    for i in range(len(dictionaries)):
-        sns.lineplot(data=dictionaries[i], label=labels[i])
+    for i in range(len(data_dictionaries)):
+        sns.lineplot(data=data_dictionaries[i], label=labels[i], color=colors[i])
+        sns.scatterplot(data=points_dictionaries[i], s=100, color=colors[i])
+        for key, value in points_dictionaries[i].items():
+            shift = confidence_intervals[i][key] / 2.0
+            plt.plot([key, key], [value-shift, value+shift], color=colors[i])
     plt.xlabel("data size")
     plt.ylabel("time")
     plt.savefig(path)

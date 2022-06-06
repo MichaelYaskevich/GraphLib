@@ -5,6 +5,7 @@ from GraphLib.algorithms.pathSearch \
     import dijkstra, bellman_ford, algorithm_for_DAG, floyd
 from GraphLib.interface.read_adjacency_lists import read_adjacency_lists
 from GraphLib.interface.read_weight_matrix import read_weight_matrix
+from GraphLib.profiler.profiler import profile_all_algorithms
 
 graph_adjacency_list_file_format = '''
 nodes count
@@ -43,7 +44,7 @@ Destination node
 def run():
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    subparsers = parser.add_subparsers(help='')
+    subparsers = parser.add_subparsers(help='', dest='name')
 
     reporter_parser = subparsers.add_parser('report', description='Make a pdf report about algorithms in GraphLib',
                                             formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -76,6 +77,9 @@ def run():
                         'floyd': floyd.find_shortest_path}
 
     args = parser.parse_args()
+    if args.name == 'report':
+        profile_all_algorithms(args.path[0])
+        return
     try:
         with open(args.path[0], 'r') as graph_file:
             if args.format[0] == 'al':

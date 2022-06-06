@@ -5,7 +5,7 @@ from GraphLib.algorithms.pathSearch.bellman_ford_help_functions import *
 from Tests.dataStructures.graph_making_functions import *
 
 
-class Bellman_Ford(unittest.TestCase):
+class BellmanFordTests(unittest.TestCase):
     def test_shortest_paths_bellman_ford(self):
         find_shortest_paths(make_graph(), 'a',
                             {'a': 0, 'b': 2, 'c': 1},

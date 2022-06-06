@@ -1,5 +1,5 @@
 import argparse
-import sys
+import unittest
 
 from GraphLib.algorithms.pathSearch \
     import dijkstra, bellman_ford, algorithm_for_DAG, floyd
@@ -46,6 +46,9 @@ def run():
 
     subparsers = parser.add_subparsers(help='', dest='name')
 
+    test_parser = subparsers.add_parser('test', description='Run all test in project',
+                                            formatter_class=argparse.RawDescriptionHelpFormatter)
+
     reporter_parser = subparsers.add_parser('report', description='Make a pdf report about algorithms in GraphLib',
                                             formatter_class=argparse.RawDescriptionHelpFormatter)
     reporter_parser.add_argument('path', type=str, nargs=1, help='Path where your report will be saved')
@@ -79,6 +82,9 @@ def run():
     args = parser.parse_args()
     if args.name == 'report':
         profile_all_algorithms(args.path[0])
+        return
+    if args.name == 'test':
+        unittest.main(argv=['first-arg-is-ignored'], exit=False)
         return
     try:
         with open(args.path[0], 'r') as graph_file:

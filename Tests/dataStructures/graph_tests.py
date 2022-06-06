@@ -3,7 +3,7 @@ import unittest
 from GraphLib.dataStructures.graph import *
 
 
-class Test(unittest.TestCase):
+class GraphTests(unittest.TestCase):
     def test_adding_nodes_to_graph(self):
         graph = Graph()
         graph.add_node(1)

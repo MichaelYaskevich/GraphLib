@@ -3,7 +3,7 @@ import unittest
 from GraphLib.generator.generator import generate_random_graph
 
 
-class Test(unittest.TestCase):
+class GeneratorTests(unittest.TestCase):
     def test_fails_generating_graph_with_zero_nodes(self):
         try:
             generate_random_graph(0, 1, 0, 1000)

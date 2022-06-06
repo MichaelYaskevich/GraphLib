@@ -2,8 +2,7 @@ import unittest
 
 from GraphLib.dataStructures.di_graph import *
 
-
-class Test(unittest.TestCase):
+class DiGraphTests(unittest.TestCase):
     def test_adding_nodes_to_DiGraph(self):
         graph = DiGraph()
         graph.add_node(1)

@@ -7,6 +7,8 @@ if __name__ == '__main__':
     if str(ROOT_DIR) not in sys.path:
         sys.path.append(str(ROOT_DIR))
 
+    from Tests import *
+
     from GraphLib.interface.parser import run
 
     run()

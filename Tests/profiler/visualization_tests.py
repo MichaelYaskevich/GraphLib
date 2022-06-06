@@ -3,10 +3,10 @@ from pathlib import Path
 from PIL import Image
 from PIL import ImageChops
 
-from GraphLib.profiler.visualisation import approximate, visualize
+from GraphLib.profiler.visualization import approximate, visualize
 
 
-class Test(unittest.TestCase):
+class VisualizationTests(unittest.TestCase):
     def test_approximation(self):
         graph_size_array = [1, 2, 3, 4]
         time_results_array = [1, 4, 9, 16]

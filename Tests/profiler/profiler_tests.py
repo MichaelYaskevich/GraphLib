@@ -5,7 +5,7 @@ from GraphLib.profiler.profiler import *
 times = [170.1, 156.3, 202.2, 196.6, 221.7, 250.3, 187.8, 177.8, 206.4, 233.3, 199.9]
 
 
-class Test(unittest.TestCase):
+class ProfilerTests(unittest.TestCase):
     def test_calculate_min_func(self):
         assert calculate_min_time(times) == 156.3
 

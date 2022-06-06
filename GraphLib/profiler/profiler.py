@@ -5,7 +5,7 @@ from time import time
 from GraphLib.algorithms.pathSearch import dijkstra, bellman_ford, algorithm_for_DAG, floyd
 from GraphLib.algorithms.pathSearch.algorithm_for_DAG import get_cycle
 from GraphLib.generator.generator import generate_random_graph
-from GraphLib.profiler.visualisation import approximate, visualize
+from GraphLib.profiler.visualization import approximate, visualize
 
 dummy_runs_count = 5
 average_runs_count = 21

@@ -13,19 +13,19 @@ def generate_random_graph(nodes_count, edges_count, min_weight, max_weight):
 
     graph = DiGraph()
 
-    nodes = range(nodes_count)
+    nodes = [str(x) for x in range(nodes_count)]
     for node in nodes:
         graph.add_node(node)
 
     edges = []
     for x in nodes:
         for y in nodes:
-            if x != y or x > y:
+            if x != y or int(x) > int(y):
                 edges.append((x, y))
 
     shuffle(edges)
 
-    for i in range(edges_count):
+    for i in range(len(edges)):
         graph.add_edge(Edge(edges[i][0], edges[i][1], uniform(min_weight, max_weight)))
 
     return graph

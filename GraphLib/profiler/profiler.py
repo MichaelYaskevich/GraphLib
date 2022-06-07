@@ -81,13 +81,12 @@ def profile_all_algorithms(path):
     doc.add_paragraph(''.join(info_list))
     doc.add_picture(str(memory_path), width=Mm(170))
     doc.add_picture(str(time_path), width=Mm(170))
-    report_path = Path(ROOT_DIR, 'GraphLib\\resources\\research_report.docx')
-    doc.save(str(report_path))
+    doc.save(str(path))
 
 
 def generate_graphs():
     result = []
-    for i in range(100, 111, 4):
+    for i in range(50, 70, 8):
         graph = generate_random_graph(i, 0, 1000)
         result.append((graph, randint(0, i - 1)))
     return result

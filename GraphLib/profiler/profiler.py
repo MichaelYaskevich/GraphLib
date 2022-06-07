@@ -107,7 +107,7 @@ def make_report(label, time_statistics, memory_statistics):
     time_statistic = combine_data(time_statistics)
     memory_statistic = combine_data(memory_statistics)
     info = f"""
-    --------------------> RESULTS OF PROFILING {label} <--------------------
+    ------------------> RESULTS OF PROFILING {label} <------------------
     
     ------------------------- TIME INFO -------------------------
     Average time spent is {time_statistic.avg} seconds

@@ -2,6 +2,8 @@ from pathlib import Path
 from random import randint
 from time import time
 from docx import Document
+from docx.shared import Pt
+from docx.shared import Mm
 
 from matplotlib.backends.backend_pdf import PdfPages
 from memory_profiler import memory_usage
@@ -33,9 +35,12 @@ def profile_all_algorithms(path):
     time_conf_intervals = []
     mem_conf_intervals = []
     mem_points_dicts = []
+    info_list = []
+    args = generate_graphs()
     for label, alg in algs_all_paths.items():
         labels.append(label)
-        graph_sizes, time_statistics, memory_statistics, info = profile(alg, label)
+        graph_sizes, time_statistics, memory_statistics, info = profile(alg, args, label)
+        info_list.append(info)
 
         mem_conf_intervals.append(
             {graph_sizes[i]: memory_statistics[i].confidence_interval
@@ -62,20 +67,33 @@ def profile_all_algorithms(path):
 
     ROOT_DIR = Path(__file__).parent.parent.parent
     memory_path = Path(ROOT_DIR, 'GraphLib\\resources\\memory_image.png')
-    time_path = Path(ROOT_DIR, 'GraphLib\\resources\\memory_image.png')
+    time_path = Path(ROOT_DIR, 'GraphLib\\resources\\time_image.png')
+
     visualize_memory(mem_data_dictionaries, labels, mem_points_dicts, mem_conf_intervals, colors, memory_path)
     visualize_time(time_data_dictionaries, labels, time_points_dicts, time_conf_intervals, colors, time_path)
 
-    document.add_picture('/path/to/image-filename.png')
+    doc = Document()
+    style = doc.styles['Normal']
+    style.font.name = 'Arial'
+    style.font.size = Pt(12)
+
+    doc.add_heading('Результаты исследования по времени и памяти')
+    doc.add_paragraph(''.join(info_list))
+    doc.add_picture(str(memory_path), width=Mm(170))
+    doc.add_picture(str(time_path), width=Mm(170))
+    report_path = Path(ROOT_DIR, 'GraphLib\\resources\\research_report.docx')
+    doc.save(str(report_path))
 
 
-
-def profile(func, label):
-    args = []
-    for i in range(10, 41, 4):
+def generate_graphs():
+    result = []
+    for i in range(100, 111, 4):
         graph = generate_random_graph(i, 0, 1000)
-        args.append((graph, randint(0, i - 1)))
+        result.append((graph, randint(0, i - 1)))
+    return result
 
+
+def profile(func, args, label):
     time_statistics = []
     memory_statistics = []
     graph_sizes = []

@@ -5,6 +5,7 @@ from time import time
 from matplotlib.backends.backend_pdf import PdfPages
 from memory_profiler import memory_usage
 
+
 from GraphLib.algorithms.pathSearch import dijkstra, bellman_ford, algorithm_for_DAG, floyd
 from GraphLib.generator.generator import generate_random_graph
 from GraphLib.profiler.approximation import approximate
@@ -33,7 +34,7 @@ def profile_all_algorithms(path):
     mem_points_dicts = []
     for label, alg in algs_all_paths.items():
         labels.append(label)
-        graph_sizes, time_statistics, memory_statistics = profile(alg)
+        graph_sizes, time_statistics, memory_statistics, info = profile(alg, label)
 
         mem_conf_intervals.append(
             {graph_sizes[i]: memory_statistics[i].confidence_interval
@@ -63,10 +64,10 @@ def profile_all_algorithms(path):
         visualize_time(time_data_dictionaries, labels, time_points_dicts, time_conf_intervals, colors, pdf)
 
 
-def profile(func):
+def profile(func, label):
     args = []
     for i in range(10, 31, 4):
-        graph = generate_random_graph(i, i * 2, 0, 1000)
+        graph = generate_random_graph(i, 0, 1000)
         args.append((graph, randint(0, i - 1)))
 
     time_statistics = []
@@ -77,8 +78,8 @@ def profile(func):
         time_statistics.append(time_statistic)
         memory_statistics.append(memory_statistic)
         graph_sizes.append(len(graph.get_nodes()))
-        print_profiling_results(func, time_statistic, memory_statistic)
-    return graph_sizes, time_statistics, memory_statistics
+    info = make_report(label, time_statistics, memory_statistics)
+    return graph_sizes, time_statistics, memory_statistics, info
 
 
 def get_profiling_results(func, graph, source):
@@ -102,26 +103,37 @@ def get_times_and_memory_usage(func, graph, source):
     return times, memory_us
 
 
-def result_to_str(time_in_seconds):
-    return f'{int(time_in_seconds / 60)} minutes {time_in_seconds % 60} seconds'
+def make_report(label, time_statistics, memory_statistics):
+    time_statistic = combine_data(time_statistics)
+    memory_statistic = combine_data(memory_statistics)
+    info = f"""
+    --------------------> RESULTS OF PROFILING {label} <--------------------
+    
+    ------------------------- TIME INFO -------------------------
+    Average time spent is {time_statistic.avg} seconds
+    Minimum time spent is {time_statistic.minimum} seconds
+    Maximum time spent is {time_statistic.maximum} seconds
+    Standard deviation is {time_statistic.std_deviation} seconds
+    Confidence interval (delta) for time is {time_statistic.confidence_interval}'
+    
+    ------------------------ MEMORY INFO ------------------------
+    Average memory usage is {memory_statistic.avg} MiB
+    Minimum memory usage is {memory_statistic.minimum} MiB
+    Maximum memory usage is {memory_statistic.maximum} MiB
+    Standard deviation is {memory_statistic.std_deviation} MiB
+    Confidence interval (delta) for memory is {memory_statistic.confidence_interval}
+    
+    
+
+    """
+
+    print(info)
+
+    return info
 
 
-def print_profiling_results(func, time_statistic, memory_statistic):
-    print(f'Results of profiling {func}:')
-
-    print(f'Average time spent is {time_statistic.avg} seconds, '
-          f'which equals to {result_to_str(time_statistic.avg)}')
-    print(f'Minimum time spent is {time_statistic.minimum} seconds, '
-          f'which equals to {result_to_str(time_statistic.minimum)}')
-    print(f'maximum time spent is {time_statistic.maximum} seconds, '
-          f'which equals to {result_to_str(time_statistic.maximum)}')
-    print(f'Standard deviation is {time_statistic.std_deviation} seconds, '
-          f'which equals to {result_to_str(time_statistic.std_deviation)}')
-    print(f'Confidence interval (delta) for time is {time_statistic.confidence_interval}, '
-          f'which equals to {result_to_str(time_statistic.confidence_interval)}')
-
-    print(f'Average memory usage is {memory_statistic.avg} MiB')
-    print(f'Minimum memory usage is {memory_statistic.minimum} MiB')
-    print(f'Maximum memory usage is {memory_statistic.maximum} MiB')
-    print(f'Standard deviation is {memory_statistic.std_deviation} MiB')
-    print(f'Confidence interval (delta) for memory is {memory_statistic.confidence_interval}')
+def combine_data(statistics):
+    arr = []
+    for stat in statistics:
+        arr += stat.array
+    return Statistic(arr)

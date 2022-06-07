@@ -36,5 +36,12 @@ class Graph:
         self.nodes_to_edge_dict[(first_node, second_node)] = edge
         self.nodes_to_edge_dict[(second_node, first_node)] = edge
 
+    def delete_edge(self, edge: Edge) -> None:
+        first_node, second_node = edge
+        self.adjacency_lists[first_node].remove(second_node)
+        self.adjacency_lists[first_node].remove(second_node)
+        self.nodes_to_edge_dict.pop((first_node, second_node))
+        self.nodes_to_edge_dict.pop((second_node, first_node))
+
     def get_incident_edge(self, first_node, second_node) -> Edge:
         return self.nodes_to_edge_dict[(first_node, second_node)]

@@ -1,11 +1,10 @@
-import math
 import unittest
 
 from GraphLib.algorithms.pathSearch.dijkstra_help_functions import *
 from Tests.dataStructures.graph_making_functions import *
 
 
-class Dijkstra(unittest.TestCase):
+class DijkstraTests(unittest.TestCase):
     def test_dijkstra_shortest_paths(self):
         find_shortest_paths(make_graph(), 'a',
                             {'a': 0, 'b': 1, 'c': 2},

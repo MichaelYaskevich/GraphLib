@@ -3,31 +3,12 @@ from pathlib import Path
 from PIL import Image
 from PIL import ImageChops
 
-from GraphLib.profiler.visualisation import approximate, visualize
+from GraphLib.profiler.approximation import approximate
+from GraphLib.profiler.visualization import visualize_time, visualize_memory
 
 
-class Test(unittest.TestCase):
-    def test_approximation(self):
-        graph_size_array = [1, 2, 3, 4]
-        time_results_array = [1, 4, 9, 16]
-
-        expected_sizes = []
-        steps = len(graph_size_array) * 10
-        for i in range(1, steps + 1):
-            expected_sizes.append(i * 0.1)
-
-        expected_results = []
-        for i in range(steps):
-            expected_results.append(expected_sizes[i] ** 2)
-
-        actual_sizes, actual_results = approximate(
-            graph_size_array, time_results_array)
-
-        assert expected_sizes == actual_sizes
-        for i in range(steps):
-            assert abs(expected_results[i] - actual_results[i]) < 0.001
-
-    def test_visualize(self):
+class VisualizationTests(unittest.TestCase):
+    def test_visualize_time(self):
         ROOT_DIR = Path(__file__).parent.parent.parent
         path = Path(ROOT_DIR, 'Tests\\resources\\actual_plot.png')
 
@@ -55,9 +36,35 @@ class Test(unittest.TestCase):
         expected_image = Image.open(
             Path(ROOT_DIR, 'Tests\\resources\\expected_plot.png'))
 
-        visualize(dictionaries, labels,
-                  point_dictionaries, confidence_intervals, ['black', 'blue'], path)
+        visualize_time(dictionaries, labels,
+                       point_dictionaries, confidence_intervals, ['black', 'blue'], path)
 
         actual_image = Image.open(path)
 
         assert ImageChops.difference(expected_image, actual_image).getbbox() is None
+
+    # def test_visualize_memory(self):
+    #     ROOT_DIR = Path(__file__).parent.parent.parent
+    #     path = Path(ROOT_DIR, 'Tests\\resources\\actual_memory_plot.png')
+    #
+    #     expected_image = Image.open(
+    #         Path(ROOT_DIR, 'Tests\\resources\\expected_memory_plot.png'))
+    #
+    #     colors = ['black', 'blue']
+    #     labels = ['1', '2']
+    #     points_dictionaries = []
+    #     points_dictionaries.append({1: 2, 2: 3})
+    #     points_dictionaries.append({1: 1, 2: 5})
+    #
+    #     x = [1, 2, 3, 4]
+    #     y = [1, 4, 9, 16]
+    #     approximate(x, y)
+    #     data_dictionaries = []
+    #
+    #
+    #
+    #     visualize_memory(data_dictionaries, labels, colors, path)
+    #
+    #     actual_image = Image.open(path)
+    #
+    #     assert ImageChops.difference(expected_image, actual_image).getbbox() is None

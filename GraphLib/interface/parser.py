@@ -1,5 +1,5 @@
 import argparse
-import sys
+import unittest
 
 from GraphLib.algorithms.pathSearch \
     import dijkstra, bellman_ford, algorithm_for_DAG, floyd
@@ -46,15 +46,20 @@ def run():
 
     subparsers = parser.add_subparsers(help='', dest='name')
 
-    reporter_parser = subparsers.add_parser('report', description='Make a pdf report about algorithms in GraphLib',
+    test_parser = subparsers.add_parser('test', description='Run all test in project',
+                                        formatter_class=argparse.RawDescriptionHelpFormatter)
+
+    reporter_parser = subparsers.add_parser('report',
+                                            description='Make a pdf report about algorithms in GraphLib',
                                             formatter_class=argparse.RawDescriptionHelpFormatter)
     reporter_parser.add_argument('path', type=str, nargs=1, help='Path where your report will be saved')
 
-    graph_lib_parser = subparsers.add_parser('find_path', description=f'Use algorithms from console.\nYou can '
-                                                                      f'provide algorithm with graph in txt file in '
-                                                                      f'any of the next '
-                                                                      f'formats: \n{graph_adjacency_list_file_format}'
-                                                                      f'\n\n====OR====\n{graph_weight_matrix_file_format}',
+    graph_lib_parser = subparsers.add_parser('find_path',
+                                             description=f'Use algorithms from console.\nYou can '
+                                                         f'provide algorithm with graph in txt file in '
+                                                         f'any of the next '
+                                                         f'formats: \n{graph_adjacency_list_file_format}'
+                                                         f'\n\n====OR====\n{graph_weight_matrix_file_format}',
                                              formatter_class=argparse.RawDescriptionHelpFormatter)
     graph_lib_parser.add_argument('path', type=str, nargs=1, help=f'full path for graph file')
     graph_lib_parser.add_argument('format', type=str, nargs=1, choices=['al', 'wm'],
@@ -79,6 +84,9 @@ def run():
     args = parser.parse_args()
     if args.name == 'report':
         profile_all_algorithms(args.path[0])
+        return
+    if args.name == 'test':
+        unittest.main(argv=['first-arg-is-ignored'], exit=False)
         return
     try:
         with open(args.path[0], 'r') as graph_file:

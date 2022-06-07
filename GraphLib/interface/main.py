@@ -1,4 +1,5 @@
 import sys
+import unittest
 from pathlib import Path
 
 
@@ -8,5 +9,6 @@ if __name__ == '__main__':
         sys.path.append(str(ROOT_DIR))
 
     from GraphLib.interface.parser import run
+    from Tests import *
 
     run()

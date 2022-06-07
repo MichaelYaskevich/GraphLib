@@ -47,17 +47,19 @@ def run():
     subparsers = parser.add_subparsers(help='', dest='name')
 
     test_parser = subparsers.add_parser('test', description='Run all test in project',
-                                            formatter_class=argparse.RawDescriptionHelpFormatter)
+                                        formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    reporter_parser = subparsers.add_parser('report', description='Make a pdf report about algorithms in GraphLib',
+    reporter_parser = subparsers.add_parser('report',
+                                            description='Make a pdf report about algorithms in GraphLib',
                                             formatter_class=argparse.RawDescriptionHelpFormatter)
     reporter_parser.add_argument('path', type=str, nargs=1, help='Path where your report will be saved')
 
-    graph_lib_parser = subparsers.add_parser('find_path', description=f'Use algorithms from console.\nYou can '
-                                                                      f'provide algorithm with graph in txt file in '
-                                                                      f'any of the next '
-                                                                      f'formats: \n{graph_adjacency_list_file_format}'
-                                                                      f'\n\n====OR====\n{graph_weight_matrix_file_format}',
+    graph_lib_parser = subparsers.add_parser('find_path',
+                                             description=f'Use algorithms from console.\nYou can '
+                                                         f'provide algorithm with graph in txt file in '
+                                                         f'any of the next '
+                                                         f'formats: \n{graph_adjacency_list_file_format}'
+                                                         f'\n\n====OR====\n{graph_weight_matrix_file_format}',
                                              formatter_class=argparse.RawDescriptionHelpFormatter)
     graph_lib_parser.add_argument('path', type=str, nargs=1, help=f'full path for graph file')
     graph_lib_parser.add_argument('format', type=str, nargs=1, choices=['al', 'wm'],

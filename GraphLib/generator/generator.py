@@ -5,9 +5,11 @@ from GraphLib.dataStructures.edge import Edge
 
 def generate_random_graph(nodes_count, min_weight, max_weight):
     if nodes_count <= 0:
-        raise ValueError(f"Inappropriate value for nodes_count: {nodes_count}, nodes_count can't be zero or less")
+        raise ValueError(f"Inappropriate value for nodes_count: "
+                         f"{nodes_count}, nodes_count can't be zero or less")
     if min_weight > max_weight:
-        raise ValueError(f'Min_weight parameter ({min_weight}) is bigger than max_weight ({max_weight})')
+        raise ValueError(f'Min_weight parameter ({min_weight}) '
+                         f'is bigger than max_weight ({max_weight})')
 
     graph = DiGraph()
 
@@ -24,5 +26,3 @@ def generate_random_graph(nodes_count, min_weight, max_weight):
                     graph.delete_edge(edge)
 
     return graph
-
-

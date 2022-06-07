@@ -36,35 +36,10 @@ class VisualizationTests(unittest.TestCase):
         expected_image = Image.open(
             Path(ROOT_DIR, 'Tests\\resources\\expected_plot.png'))
 
-        visualize_time(dictionaries, labels,
-                       point_dictionaries, confidence_intervals, ['black', 'blue'], path)
+        visualize_time(dictionaries, labels, point_dictionaries,
+                       confidence_intervals, ['black', 'blue'], path)
 
         actual_image = Image.open(path)
 
-        assert ImageChops.difference(expected_image, actual_image).getbbox() is None
-
-    # def test_visualize_memory(self):
-    #     ROOT_DIR = Path(__file__).parent.parent.parent
-    #     path = Path(ROOT_DIR, 'Tests\\resources\\actual_memory_plot.png')
-    #
-    #     expected_image = Image.open(
-    #         Path(ROOT_DIR, 'Tests\\resources\\expected_memory_plot.png'))
-    #
-    #     colors = ['black', 'blue']
-    #     labels = ['1', '2']
-    #     points_dictionaries = []
-    #     points_dictionaries.append({1: 2, 2: 3})
-    #     points_dictionaries.append({1: 1, 2: 5})
-    #
-    #     x = [1, 2, 3, 4]
-    #     y = [1, 4, 9, 16]
-    #     approximate(x, y)
-    #     data_dictionaries = []
-    #
-    #
-    #
-    #     visualize_memory(data_dictionaries, labels, colors, path)
-    #
-    #     actual_image = Image.open(path)
-    #
-    #     assert ImageChops.difference(expected_image, actual_image).getbbox() is None
+        assert ImageChops.difference(
+            expected_image, actual_image).getbbox() is None

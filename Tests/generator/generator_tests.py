@@ -11,7 +11,7 @@ class GeneratorTests(unittest.TestCase):
         except ValueError:
             assert True
 
-    def test_fails_generating_graph_with_min_weight_bigger_than_max_weight(self):
+    def test_fails_when_min_weight_bigger_than_max_weight(self):
         try:
             generate_random_graph(1, 1111, 0)
             assert False

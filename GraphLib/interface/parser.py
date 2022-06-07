@@ -101,8 +101,13 @@ def run():
         if destination == '-':
             alg = algs_all_paths[args.algorithm[0]]
             try:
-                for path, distance in alg(graph, source):
-                    print('path: ', '-'.join(path), f"weight: {distance}")
+                for path_or_info, distance in alg(graph, source):
+                    ok, result = path_or_info
+                    if not ok:
+                        source, destination = result
+                        print(f'No path from {source} to {destination}')
+                    else:
+                        print('path: ', '-'.join(result), f"weight: {distance}")
             except Exception as e:
                 print(e.args[0])
         else:

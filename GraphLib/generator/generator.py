@@ -15,18 +15,13 @@ def generate_random_graph(nodes_count, min_weight, max_weight):
     for node in nodes:
         graph.add_node(node)
 
-    edges = []
     for x in nodes:
         for y in nodes:
             if x != y:
-                edges.append((x, y))
+                edge = Edge(x, y, uniform(min_weight, max_weight))
+                graph.add_edge(edge)
                 if is_cyclic(graph):
-                    edges.pop()
-
-    shuffle(edges)
-
-    for i in range(len(edges)):
-        graph.add_edge(Edge(edges[i][0], edges[i][1], uniform(min_weight, max_weight)))
+                    graph.delete_edge(edge)
 
     return graph
 

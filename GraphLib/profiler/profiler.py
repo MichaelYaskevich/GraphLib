@@ -1,6 +1,7 @@
-import math
+from pathlib import Path
 from random import randint
 from time import time
+from docx import Document
 
 from matplotlib.backends.backend_pdf import PdfPages
 from memory_profiler import memory_usage
@@ -19,8 +20,8 @@ def profile_all_algorithms(path):
     algs_all_paths = {
         'dijkstra': dijkstra.find_shortest_paths,
         'bellman_ford': bellman_ford.find_shortest_paths,
-        # 'algorithm_for_dag':
-        #     algorithm_for_DAG.find_shortest_paths,
+        'algorithm_for_dag':
+            algorithm_for_DAG.find_shortest_paths,
         'floyd': floyd.find_shortest_paths_from_source
     }
     time_data_dictionaries = []
@@ -58,15 +59,20 @@ def profile_all_algorithms(path):
                             for i in range(len(graph_sizes))])
         time_data_dictionaries.append({x[i]: y[i] for i in range(len(x))})
 
-    with PdfPages(path) as pdf:
-        visualize_memory(mem_data_dictionaries, labels, mem_points_dicts, mem_conf_intervals, colors, pdf)
-        visualize_time(time_data_dictionaries, labels, time_points_dicts, time_conf_intervals, colors, pdf)
+    ROOT_DIR = Path(__file__).parent.parent.parent
+    memory_path = Path(ROOT_DIR, 'GraphLib\\resources\\memory_image.png')
+    time_path = Path(ROOT_DIR, 'GraphLib\\resources\\memory_image.png')
+    visualize_memory(mem_data_dictionaries, labels, mem_points_dicts, mem_conf_intervals, colors, memory_path)
+    visualize_time(time_data_dictionaries, labels, time_points_dicts, time_conf_intervals, colors, time_path)
+
+    document.add_picture('/path/to/image-filename.png')
+
 
 
 def profile(func):
     args = []
-    for i in range(10, 31, 4):
-        graph = generate_random_graph(i, i * 2, 0, 1000)
+    for i in range(10, 41, 4):
+        graph = generate_random_graph(i, 0, 1000)
         args.append((graph, randint(0, i - 1)))
 
     time_statistics = []

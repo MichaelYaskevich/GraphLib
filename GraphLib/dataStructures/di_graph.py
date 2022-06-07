@@ -1,6 +1,5 @@
 import queue
 
-
 from GraphLib.dataStructures.edge import Edge
 from GraphLib.dataStructures.graph import Graph
 
@@ -20,42 +19,27 @@ class DiGraph(Graph):
             raise ValueError("Such edge already exists")
 
         self.adjacency_lists[start].append(end)
-        # flag = True
-        # try:
-        #     if get_cycle(self.adjacency_lists) is not None:
-        #         self.adjacency_lists[start].pop()
-        #         flag = False
-        # except Exception:
-        #     self.adjacency_lists[start].pop()
-        #     flag = False
-        # if flag:
         self.nodes_to_edge_dict[(start, end)] = edge
 
+    def delete_edge(self, edge: Edge) -> None:
+        start, end = edge
+        self.adjacency_lists[start].remove(end)
+        self.nodes_to_edge_dict.pop((start, end))
 
-def get_cycle(adjacency_lists):
-    """
-    Finds cycle in graph
-    :param adjacency_lists: representation of graph
-    :return: cycle as list of nodes or None
-    """
-    prev = {}
-    if len(adjacency_lists) < 2:
-        return None
-    q = queue.Queue()
-    visited = {}
-    for node in adjacency_lists.keys():
-        if q.qsize() == 0:
-            q.put(node)
-            visited[node] = True
-        else:
-            visited[node] = False
-    while q.qsize() != 0:
-        node = q.get()
-        for child in adjacency_lists[node]:
-            prev[child] = node
-            if visited[child]:
-                return build_cycle(node, child, prev)
-            else:
-                q.put(child)
-                visited[child] = True
-    return None
+
+def is_cyclic(graph: Graph):
+    path = set()
+    visited = set()
+
+    def visit(node):
+        if node in visited:
+            return False
+        visited.add(node)
+        path.add(node)
+        for neighbour in graph.get_adjacent_nodes(node):
+            if neighbour in path or visit(neighbour):
+                return True
+        path.remove(node)
+        return False
+
+    return any(visit(v) for v in graph.get_nodes())

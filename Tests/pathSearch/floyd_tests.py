@@ -7,7 +7,7 @@ from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.edge import Edge
 
 
-class Dijkstra(unittest.TestCase):
+class FloydTests(unittest.TestCase):
     def test_floyd_shortest_paths(self):
         graph = make_graph()
         distances_actual, _ = find_shortest_paths_from_all_to_all(graph)

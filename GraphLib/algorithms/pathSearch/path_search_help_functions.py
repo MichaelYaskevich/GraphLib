@@ -4,7 +4,9 @@ def get_paths_from_source_to_all(source, previous, distances):
             yield get_path(source, node, previous), distances[node]
 
 
-def get_path(source, destination, previous: dict) -> list:
+def get_path(source, destination, previous: dict):
+    if destination not in previous:
+        return False, (source, destination)
     current = previous[destination]
     path = [destination, current]
     while current != source:
@@ -12,4 +14,4 @@ def get_path(source, destination, previous: dict) -> list:
         path.append(current)
     path.reverse()
 
-    return path
+    return True, path

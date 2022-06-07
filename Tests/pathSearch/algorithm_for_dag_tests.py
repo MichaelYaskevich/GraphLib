@@ -5,7 +5,7 @@ from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import *
 from Tests.dataStructures.graph_making_functions import *
 
 
-class Algorithm_for_DAG(unittest.TestCase):
+class AlgorithmForDagTests(unittest.TestCase):
     def test_topological_sort_no_cycle(self):
         adjacency_lists = {'a': ['b', 'c'], 'b': ['c'], 'c': []}
 

@@ -5,11 +5,11 @@ from docx import Document
 from docx.shared import Pt
 from docx.shared import Mm
 
-from matplotlib.backends.backend_pdf import PdfPages
 from memory_profiler import memory_usage
 
 
-from GraphLib.algorithms.pathSearch import dijkstra, bellman_ford, algorithm_for_DAG, floyd
+from GraphLib.algorithms.pathSearch import \
+    dijkstra, bellman_ford, algorithm_for_DAG, floyd
 from GraphLib.generator.generator import generate_random_graph
 from GraphLib.profiler.approximation import approximate
 from GraphLib.profiler.statistic import Statistic
@@ -19,7 +19,7 @@ dummy_runs_count = 5
 average_runs_count = 21
 
 
-def profile_all_algorithms(path):
+def profile_all_algorithms(path, min_size, max_size):
     algs_all_paths = {
         'dijkstra': dijkstra.find_shortest_paths,
         'bellman_ford': bellman_ford.find_shortest_paths,
@@ -36,10 +36,11 @@ def profile_all_algorithms(path):
     mem_conf_intervals = []
     mem_points_dicts = []
     info_list = []
-    args = generate_graphs()
+    args = generate_graphs(min_size, max_size)
     for label, alg in algs_all_paths.items():
         labels.append(label)
-        graph_sizes, time_statistics, memory_statistics, info = profile(alg, args, label)
+        graph_sizes, time_statistics, memory_statistics, info = \
+            profile(alg, args, label)
         info_list.append(info)
 
         mem_conf_intervals.append(
@@ -69,8 +70,10 @@ def profile_all_algorithms(path):
     memory_path = Path(ROOT_DIR, 'GraphLib\\resources\\memory_image.png')
     time_path = Path(ROOT_DIR, 'GraphLib\\resources\\time_image.png')
 
-    visualize_memory(mem_data_dictionaries, labels, mem_points_dicts, mem_conf_intervals, colors, memory_path)
-    visualize_time(time_data_dictionaries, labels, time_points_dicts, time_conf_intervals, colors, time_path)
+    visualize_memory(mem_data_dictionaries, labels,
+                     mem_points_dicts, mem_conf_intervals, colors, memory_path)
+    visualize_time(time_data_dictionaries, labels,
+                   time_points_dicts, time_conf_intervals, colors, time_path)
 
     doc = Document()
     style = doc.styles['Normal']
@@ -84,9 +87,10 @@ def profile_all_algorithms(path):
     doc.save(str(path))
 
 
-def generate_graphs():
+def generate_graphs(min_size, max_size):
     result = []
-    for i in range(50, 70, 8):
+    step = max(4, (max_size-min_size)//8)
+    for i in range(max(min_size, 2), max_size, step):
         graph = generate_random_graph(i, 0, 1000)
         result.append((graph, randint(0, i - 1)))
     return result
@@ -97,9 +101,9 @@ def profile(func, args, label):
     memory_statistics = []
     graph_sizes = []
     for graph, source in args:
-        time_statistic, memory_statistic = get_profiling_results(func, graph, source)
-        time_statistics.append(time_statistic)
-        memory_statistics.append(memory_statistic)
+        time_stat, memory_stat = get_profiling_results(func, graph, source)
+        time_statistics.append(time_stat)
+        memory_statistics.append(memory_stat)
         graph_sizes.append(len(graph.get_nodes()))
     info = make_report(label, time_statistics, memory_statistics)
     return graph_sizes, time_statistics, memory_statistics, info
@@ -130,24 +134,21 @@ def make_report(label, time_statistics, memory_statistics):
     time_statistic = combine_data(time_statistics)
     memory_statistic = combine_data(memory_statistics)
     info = f"""
-    ------------------> RESULTS OF PROFILING {label} <------------------
-    
+    ------------------> RESULTS OF PROFILING {label} <------------------\n\n
     ------------------------- TIME INFO -------------------------
     Average time spent is {time_statistic.avg} seconds
     Minimum time spent is {time_statistic.minimum} seconds
     Maximum time spent is {time_statistic.maximum} seconds
     Standard deviation is {time_statistic.std_deviation} seconds
-    Confidence interval (delta) for time is {time_statistic.confidence_interval}'
-    
+    Confidence interval (delta) for time """\
+           f"""is {time_statistic.confidence_interval}'\n\n
     ------------------------ MEMORY INFO ------------------------
     Average memory usage is {memory_statistic.avg} MiB
     Minimum memory usage is {memory_statistic.minimum} MiB
     Maximum memory usage is {memory_statistic.maximum} MiB
     Standard deviation is {memory_statistic.std_deviation} MiB
-    Confidence interval (delta) for memory is {memory_statistic.confidence_interval}
-    
-    
-
+    Confidence interval (delta) """\
+           f"""for memory is {memory_statistic.confidence_interval}\n\n\n\n
     """
 
     print(info)

@@ -42,34 +42,51 @@ Destination node
 
 
 def run():
-    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter)
 
     subparsers = parser.add_subparsers(help='', dest='name')
 
-    test_parser = subparsers.add_parser('test', description='Run all test in project',
-                                        formatter_class=argparse.RawDescriptionHelpFormatter)
+    test_parser = subparsers \
+        .add_parser('test', description='Run all test in project',
+                    formatter_class=argparse.RawDescriptionHelpFormatter)
 
-    reporter_parser = subparsers.add_parser('report',
-                                            description='Make a pdf report about algorithms in GraphLib',
-                                            formatter_class=argparse.RawDescriptionHelpFormatter)
-    reporter_parser.add_argument('path', type=str, nargs=1, help='Path where your report will be saved')
+    reporter_parser = subparsers.add_parser(
+        'report',
+        description='Make a pdf report about algorithms in GraphLib',
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    reporter_parser.add_argument(
+        'path', type=str, nargs=1,
+        help='Path where your report will be saved')
+    reporter_parser.add_argument(
+        'min_graph_size', type=int, nargs=1,
+        help='Min nodes count in generated for research graphs')
+    reporter_parser.add_argument(
+        'max_graph_size', type=int, nargs=1,
+        help='Max nodes count in generated for research graphs')
 
-    graph_lib_parser = subparsers.add_parser('find_path',
-                                             description=f'Use algorithms from console.\nYou can '
-                                                         f'provide algorithm with graph in txt file in '
-                                                         f'any of the next '
-                                                         f'formats: \n{graph_adjacency_list_file_format}'
-                                                         f'\n\n====OR====\n{graph_weight_matrix_file_format}',
-                                             formatter_class=argparse.RawDescriptionHelpFormatter)
-    graph_lib_parser.add_argument('path', type=str, nargs=1, help=f'full path for graph file')
-    graph_lib_parser.add_argument('format', type=str, nargs=1, choices=['al', 'wm'],
-                                  help='Choose format of graph representation:'
-                                       '"al" for adjacency list and "wm" for '
-                                       'weight matrix')
-    graph_lib_parser.add_argument('algorithm', type=str, nargs=1,
-                                  choices=['dijkstra', 'bellman_ford', 'algorithm_for_dag', 'floyd'],
-                                  help=f'algorithm you want to use, choices are: '
-                                       f'dijkstra, bellman_ford, algorithm_for_dag, floyd')
+    graph_lib_parser = subparsers.add_parser(
+        'find_path',
+        description=f'Use algorithms from console.\nYou can '
+                    f'provide algorithm with graph in txt file in '
+                    f'any of the next '
+                    f'formats: \n{graph_adjacency_list_file_format}'
+                    f'\n\n====OR====\n{graph_weight_matrix_file_format}',
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    graph_lib_parser.add_argument(
+        'path', type=str, nargs=1,
+        help=f'full path for graph file')
+    graph_lib_parser.add_argument(
+        'format', type=str, nargs=1, choices=['al', 'wm'],
+        help='Choose format of graph representation:'
+             '"al" for adjacency list and "wm" for '
+             'weight matrix')
+    graph_lib_parser.add_argument(
+        'algorithm', type=str, nargs=1,
+        choices=['dijkstra', 'bellman_ford',
+                 'algorithm_for_dag', 'floyd'],
+        help=f'algorithm you want to use, choices are: '
+             f'dijkstra, bellman_ford, algorithm_for_dag, floyd')
     algs_all_paths = {'dijkstra': dijkstra.find_shortest_paths,
                       'bellman_ford': bellman_ford.find_shortest_paths,
                       'algorithm_for_dag':
@@ -83,7 +100,17 @@ def run():
 
     args = parser.parse_args()
     if args.name == 'report':
-        profile_all_algorithms(args.path[0])
+        min_size, max_size = args.min_graph_size[0], args.max_graph_size[0]
+        if max_size - min_size < 10:
+            print(
+                f'write range bigger than '
+                f'{min_size}-{max_size} to make good research, please')
+            return
+        if max_size > 60:
+            print(f'{max_size} should not be bigger '
+                  f'than 60 to finish in good time')
+            return
+        profile_all_algorithms(args.path[0], min_size, max_size)
         return
     if args.name == 'test':
         unittest.main(argv=['first-arg-is-ignored'], exit=False)
@@ -107,7 +134,8 @@ def run():
                         source, destination = result
                         print(f'No path from {source} to {destination}')
                     else:
-                        print('path: ', '-'.join(result), f"weight: {distance}")
+                        print('path: ', '-'.join(result),
+                              f"weight: {distance}")
             except Exception as e:
                 print(e.args[0])
         else:

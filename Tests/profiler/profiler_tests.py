@@ -17,5 +17,5 @@ class ProfilerTests(unittest.TestCase):
         assert Statistic(times).std_deviation == 27.59002784274848
 
     def test_confidence_interval(self):
-        assert Statistic(times).confidence_interval == 18.534909711580788
+        assert Statistic(times).confidence_interval == 37.07046581933969
 

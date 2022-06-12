@@ -3,7 +3,8 @@ import unittest
 from GraphLib.profiler.profiler import *
 from GraphLib.profiler.statistic import Statistic
 
-times = [170.1, 156.3, 202.2, 196.6, 221.7, 250.3, 187.8, 177.8, 206.4, 233.3, 199.9]
+times = [170.1, 156.3, 202.2, 196.6, 221.7,
+         250.3, 187.8, 177.8, 206.4, 233.3, 199.9]
 
 
 class ProfilerTests(unittest.TestCase):
@@ -18,4 +19,3 @@ class ProfilerTests(unittest.TestCase):
 
     def test_confidence_interval(self):
         assert Statistic(times).confidence_interval == 37.07046581933969
-

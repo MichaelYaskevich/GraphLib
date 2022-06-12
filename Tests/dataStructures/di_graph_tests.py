@@ -2,6 +2,7 @@ import unittest
 
 from GraphLib.dataStructures.di_graph import *
 
+
 class DiGraphTests(unittest.TestCase):
     def test_adding_nodes_to_DiGraph(self):
         graph = DiGraph()
@@ -15,8 +16,8 @@ class DiGraphTests(unittest.TestCase):
         graph.add_node(2)
         graph.add_edge(Edge(1, 2, 3))
         assert 2 in graph.adjacency_lists[1] \
-               and 1 not in graph.adjacency_lists[2] and \
-               graph.get_incident_edge(1, 2).weight == 3
+            and 1 not in graph.adjacency_lists[2] and \
+            graph.get_incident_edge(1, 2).weight == 3
 
     def test_getting_adjacent_nodes(self):
         graph = DiGraph()

@@ -6,6 +6,12 @@ from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.exception import CycleError
 
 
+# TODO: сделать launchExamples, поправить readme.md
+# TODO: docstrings
+# TODO: костыль в main.py не работает при запуске отдельных файлов из проекта,
+#  например для вывода документации
+#  pydoc -w имя_файла
+#  создаст html страницу с документацией
 def find_shortest_paths(graph: DiGraph, source):
     """
     Finds shortest paths in directed acyclic graph (DAG)

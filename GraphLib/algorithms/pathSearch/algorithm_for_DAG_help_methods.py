@@ -5,6 +5,7 @@ from GraphLib.algorithms.pathSearch.algorithm_for_DAG import topological_sort
 from GraphLib.dataStructures.di_graph import DiGraph
 
 
+# TODO: написать doc strings везде
 def initialize_input_degrees(adjacency_lists):
     deg_in_dict = {}
     for v in adjacency_lists.keys():

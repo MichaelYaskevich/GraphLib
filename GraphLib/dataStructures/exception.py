@@ -1,3 +1,4 @@
+#TODO: docstrings а русском
 class NegativeCycleError(RuntimeError):
     """
     Some algorithms raise this exception
@@ -9,6 +10,13 @@ class NegativeCycleError(RuntimeError):
 class CycleError(RuntimeError):
     """
     Some algorithms raise this exception when they find a cycle.
+    """
+    pass
+
+
+class FileInWrongFormatError(RuntimeError):
+    """
+    Parser raises this exception when can't read file with graph
     """
     pass
 

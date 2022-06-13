@@ -9,7 +9,8 @@ from memory_profiler import memory_usage
 
 from GraphLib.algorithms.pathSearch import \
     dijkstra, bellman_ford, algorithm_for_DAG, floyd
-from GraphLib.generator.generator import generate_random_graph
+from GraphLib.generator.generator import generate_random_graph, generate_worst_case_graph_for_bellman_ford, \
+    generate_best_case_graph_for_bellman_ford
 from GraphLib.profiler.approximation import approximate
 from GraphLib.profiler.statistic import Statistic
 from GraphLib.profiler.visualization import visualize_time, visualize_memory
@@ -36,6 +37,8 @@ def profile_all_algorithms(path, min_size, max_size):
     mem_points_dicts = []
     info_list = []
     args = generate_graphs(min_size, max_size)
+    # args = generate_best_case_bf_graphs(min_size, max_size)
+    # args = generate_worst_case_bf_graphs(min_size, max_size)
     for label, alg in algs_all_paths.items():
         labels.append(label)
         graph_sizes, time_statistics, memory_statistics, info = \
@@ -105,6 +108,26 @@ def generate_graphs(min_size, max_size):
     for i in range(max(min_size, 2), max_size, step):
         graph = generate_random_graph(i, 0, 1000)
         result.append((graph, randint(0, i - 1)))
+    return result
+
+
+def generate_worst_case_bf_graphs(min_size, max_size):
+    result = []
+    step = max(4, (max_size-min_size)//8)
+    for i in range(max(min_size, 2), max_size, step):
+        graph = generate_worst_case_graph_for_bellman_ford(i, 0, 1000)
+        result.append((graph, randint(0, i - 1)))
+
+    return result
+
+
+def generate_best_case_bf_graphs(min_size, max_size):
+    result = []
+    step = max(4, (max_size-min_size)//8)
+    for i in range(max(min_size, 2), max_size, step):
+        graph = generate_best_case_graph_for_bellman_ford(i, 0, 1000)
+        result.append((graph, i - 1))
+
     return result
 
 

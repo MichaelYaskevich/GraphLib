@@ -1,114 +1,98 @@
 from pathlib import Path
-from random import randint
 from time import time
-from docx import Document
-from docx.shared import Pt, Mm
-from main import log_func
-
 from memory_profiler import memory_usage
 
+from main import log_func
 from GraphLib.algorithms.pathSearch import \
     dijkstra, bellman_ford, algorithm_for_DAG, floyd
-from GraphLib.generator.generator import generate_random_graph
+from GraphLib.generator.generator import generate_graphs
+from GraphLib.profiler.visualization_data import VisualizationData
 from GraphLib.profiler.approximation import approximate
 from GraphLib.profiler.statistic import Statistic
-from GraphLib.profiler.visualization import visualize_time, visualize_memory
+from GraphLib.profiler.visualization import make_docx, save_document
 
 dummy_runs_count = 5
 average_runs_count = 21
+algs_all_paths = {
+    'dijkstra': dijkstra.find_shortest_paths,
+    'bellman_ford': bellman_ford.find_shortest_paths,
+    'algorithm_for_dag': algorithm_for_DAG.find_shortest_paths,
+    'floyd': floyd.find_shortest_paths_from_source
+}
+colors = ['black', 'red', 'green', 'blue']
 
 
 def profile_all_algorithms(path, min_size, max_size):
-    algs_all_paths = {
-        'dijkstra': dijkstra.find_shortest_paths,
-        'bellman_ford': bellman_ford.find_shortest_paths,
-        'algorithm_for_dag':
-            algorithm_for_DAG.find_shortest_paths,
-        'floyd': floyd.find_shortest_paths_from_source
-    }
-    time_data_dictionaries = []
-    mem_data_dictionaries = []
+    """
+    Создание нового отчета о сравнении
+    алгоритмов по использованию времени и памяти,
+    основанного на случайно сгенерированных данных.
+
+    :param path: Абсолютный или относительный путь для сохранения файла docx с результатами
+    :param min_size: Минимальное количество узлов в генерируемых графах.
+    :param max_size: Максимальное количество узлов в генерируемых графах.
+    """
+
+    memory = VisualizationData([], [], [])
+    time = VisualizationData([], [], [])
     labels = []
-    colors = ['black', 'red', 'green', 'blue']
-    time_points_dicts = []
-    time_conf_intervals = []
-    mem_conf_intervals = []
-    mem_points_dicts = []
     info_list = []
-    args = generate_graphs(min_size, max_size)
+    graphs = generate_graphs(min_size, max_size)
+
     for label, alg in algs_all_paths.items():
+        graph_sizes, time_statistics, mem_statistics, info = \
+            profile(alg, graphs, label)
+
         labels.append(label)
-        graph_sizes, time_statistics, memory_statistics, info = \
-            profile(alg, args, label)
         info_list.append(info)
 
-        mem_conf_intervals.append(
-            {graph_sizes[i]: memory_statistics[i].confidence_interval
-             for i in range(len(graph_sizes))})
-        mem_points_dicts.append(
-            {graph_sizes[i]: memory_statistics[i].avg
-             for i in range(len(graph_sizes))})
-        x, y = approximate(graph_sizes,
-                           [memory_statistics[i].avg
-                            for i in range(len(graph_sizes))])
-        mem_data_dictionaries.append(
-            {x[i]: y[i] for i in range(len(x))})
+        mem_data, mem_points, mem_conf_intervals = \
+            adapt_for_visualization(graph_sizes, mem_statistics)
+        memory.data_dictionaries.append(mem_data)
+        memory.points_dictionaries.append(mem_points)
+        memory.confidence_intervals.append(mem_conf_intervals)
 
-        time_conf_intervals.append(
-            {graph_sizes[i]: time_statistics[i].confidence_interval
-             for i in range(len(graph_sizes))})
-        time_points_dicts.append(
-            {graph_sizes[i]: time_statistics[i].avg
-             for i in range(len(graph_sizes))})
-        x, y = approximate(graph_sizes,
-                           [time_statistics[i].avg
-                            for i in range(len(graph_sizes))])
-        time_data_dictionaries.append({x[i]: y[i] for i in range(len(x))})
+        time_data, time_points, time_conf_intervals = \
+            adapt_for_visualization(graph_sizes, time_statistics)
+        time.data_dictionaries.append(time_data)
+        time.points_dictionaries.append(time_points)
+        time.confidence_intervals.append(time_conf_intervals)
 
-    ROOT_DIR = Path(__file__).parent.parent.parent
-    memory_path = Path(ROOT_DIR, 'GraphLib\\resources\\memory_image.png')
-    time_path = Path(ROOT_DIR, 'GraphLib\\resources\\time_image.png')
-
-    visualize_memory(mem_data_dictionaries, labels,
-                     mem_points_dicts, mem_conf_intervals, colors, memory_path)
-    visualize_time(time_data_dictionaries, labels,
-                   time_points_dicts, time_conf_intervals, colors, time_path)
-
-    doc = Document()
-    style = doc.styles['Normal']
-    style.font.name = 'Arial'
-    style.font.size = Pt(12)
-
-    doc.add_heading('Результаты исследования по времени и памяти')
-    doc.add_paragraph(''.join(info_list))
-    doc.add_picture(str(memory_path), width=Mm(170))
-    doc.add_picture(str(time_path), width=Mm(170))
+    doc = make_docx(info_list, labels, colors, memory, time)
 
     save_document(doc, Path(path))
 
 
-def save_document(doc, path):
-    if path.is_dir():
-        doc.save(path / 'report.docx')
-    else:
-        if path.suffix != '.docx':
-            doc.save(path.with_suffix('.docx'))
-            log_func(f'Расширение файла было изменено '
-                     f'с {path.suffix} на .docx')
-        else:
-            doc.save(path)
+def adapt_for_visualization(graph_sizes, statistics):
+    """
+    Преобразует результаты в удобный для подачи в функции визуализации вид.
+
+    :param graph_sizes: количества вершин графов
+    :param statistics: экземпляры класса Statistic
+    :return: точки аппроксимируещей функции, точки отображающие результаты, доверительные интервалы
+    """
+
+    n = len(graph_sizes)
+    points_dict = {graph_sizes[i]: statistics[i].avg for i in range(n)}
+    conf_intervals = {graph_sizes[i]: statistics[i].confidence_interval
+                      for i in range(n)}
+    x, y = approximate(
+        graph_sizes, [statistics[i].avg for i in range(n)])
+    data_dict = {x[i]: y[i] for i in range(len(x))}
+
+    return data_dict, points_dict, conf_intervals
 
 
-def generate_graphs(min_size, max_size):
-    result = []
-    step = max(4, (max_size - min_size) // 8)
-    for i in range(max(min_size, 2), max_size, step):
-        graph = generate_random_graph(i, 0, 1000)
-        result.append((graph, randint(0, i - 1)))
-    return result
+def profile(func, args, alg_name):
+    """
+    Проводит профилирование алгоритма на предоставленных графах.
 
+    :param func: запускаемый алгоритм
+    :param args: аргументы для алгоритма граф с вершиной - источником
+    :param alg_name: название алгоритма
+    :return: количества вершин графов, Statistic для времени, Statistic для памяти, часть отчета
+    """
 
-def profile(func, args, label):
     time_statistics = []
     memory_statistics = []
     graph_sizes = []
@@ -117,20 +101,37 @@ def profile(func, args, label):
         time_statistics.append(time_stat)
         memory_statistics.append(memory_stat)
         graph_sizes.append(len(graph.get_nodes()))
-    info = make_report(label, time_statistics, memory_statistics)
-    return graph_sizes, time_statistics, memory_statistics, info
+    report_part = make_report(alg_name, time_statistics, memory_statistics)
+    return graph_sizes, time_statistics, memory_statistics, report_part
 
 
 def get_profiling_results(func, graph, source):
+    """
+    Проводит профилирование алгоритма на одном графе с холостыми запусками.
+
+    :param func: запускаемый алгоритм
+    :param graph: граф на котором запускается поиск
+    :param source: вершина - источник для поиска
+    :return: Statistic для времени, Statistic для памяти
+    """
+
     for i in range(dummy_runs_count):
         func(graph, source)
     times, memory_us = get_times_and_memory_usage(func, graph, source)
-    memory_statistic = Statistic(memory_us)
-    time_statistic = Statistic(times)
-    return time_statistic, memory_statistic
+
+    return Statistic(times), Statistic(memory_us)
 
 
 def get_times_and_memory_usage(func, graph, source):
+    """
+    Проводит профилирование алгоритма на одном графе без холостых запусков.
+
+    :param func: запускаемый алгоритм
+    :param graph: граф на котором запускается поиск
+    :param source: вершина - источник для поиска
+    :return: замеры времени, замеры памяти
+    """
+
     times = []
     for i in range(average_runs_count):
         current_run_start = time()
@@ -138,18 +139,28 @@ def get_times_and_memory_usage(func, graph, source):
         while time() - current_run_start == 0.0:
             list(func(graph, source))
             count += 1
-        times.append((time() - current_run_start)/count)
+        times.append((time() - current_run_start) / count)
+
     memory_us = memory_usage(proc=lambda: list(func(graph, source)),
                              max_usage=False, backend="psutil",
                              include_children=True)
     return times, memory_us
 
 
-def make_report(label, time_statistics, memory_statistics):
+def make_report(alg_name, time_statistics, memory_statistics):
+    """
+    Создает часть отчета для одного алгоритма.
+
+    :param alg_name: название алгоритма
+    :param time_statistics: экземпляры класса Statistic для времени
+    :param memory_statistics: экземпляры класса Statistic для памяти
+    :return: часть отчета
+    """
+
     time_statistic = combine_data(time_statistics)
     memory_statistic = combine_data(memory_statistics)
-    info = f"""
-    ------------------> RESULTS OF PROFILING {label} <------------------\n\n
+    report_part = f"""
+    ------------------> RESULTS OF PROFILING {alg_name} <------------------\n\n
     ------------------------- TIME INFO -------------------------
     Average time spent is {time_statistic.avg} seconds
     Minimum time spent is {time_statistic.minimum} seconds
@@ -166,12 +177,19 @@ def make_report(label, time_statistics, memory_statistics):
            f"""for memory is {memory_statistic.confidence_interval}\n\n\n\n
     """
 
-    log_func(info)
+    log_func(report_part)
 
-    return info
+    return report_part
 
 
 def combine_data(statistics):
+    """
+    Объеденяет несколько экземпляров класса Statistic в один.
+
+    :param statistics: экземпляры класса Statistic
+    :return: экземпляр класса Statistic
+    """
+
     arr = []
     for stat in statistics:
         arr += stat.array

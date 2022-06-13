@@ -1,45 +1,45 @@
 #TODO: docstrings а русском
 class NegativeCycleError(RuntimeError):
     """
-    Some algorithms raise this exception
-        when they find a negative cycle.
+    Некоторые алгоритмы вызывают это исключение
+        когда они находят отрицательный цикл.
     """
     pass
 
 
 class CycleError(RuntimeError):
     """
-    Some algorithms raise this exception when they find a cycle.
+    Некоторые алгоритмы поднимают это исключение, когда находят цикл.
     """
     pass
 
 
 class FileInWrongFormatError(RuntimeError):
     """
-    Parser raises this exception when can't read file with graph
+    Парсер вызывает это исключение, когда не может прочитать файл с графом
     """
     pass
 
 
 class MissingNodeError(Exception):
     """
-    You will see this exception if you try to connect nodes
-        when one or both of them do not exist in this graph
+    Вы увидите это исключение, если попытаетесь соединить узлы
+        когда один из них или оба не существуют в данном графе
     """
     pass
 
 
 class MissingEdgeError(Exception):
     """
-    You will see this exception if you try
-        to get incident edge that doesn't exist
+    Вы увидите это исключение, если попытаетесь
+        получить несуществующую грань инцидента
     """
 
 
 class ExistingNodeError(Exception):
     """
-    You will see this exception if you try
-        to add existing node to some graph
+    Вы увидите это исключение, если попытаетесь
+        добавить существующий узел к некоторому графу
     """
     pass
 

@@ -39,7 +39,7 @@ class BellmanFordTests(unittest.TestCase):
         try:
             find_negative_cycle(graph, dist, previous)
         except Exception as e:
-            assert e.args[0] == "Negative cycle was found b-c-a-b"
+            assert e.args[0] == "Найден цикл отрицательного веса b-c-a-b"
 
     def test_update_distances(self):
         dist = {'a': 0, 'b': 3, 'c': 1}
@@ -79,14 +79,14 @@ class BellmanFordTests(unittest.TestCase):
         try:
             raise_error(prev, source, previous)
         except Exception as e:
-            assert e.args[0] == "Negative cycle was found b-c-a-b"
+            assert e.args[0] == "Найден цикл отрицательного веса b-c-a-b"
 
     def test_build_cycle_with_empty_previous_list(self):
         try:
             build_cycle(3, 1, [])
         except Exception as e:
             assert e.args[0] == \
-                   "There isn't enough information to build a cycle"
+                   "не хватает информации для построения цикла"
 
     def test_build_cycle(self):
         prev = 3

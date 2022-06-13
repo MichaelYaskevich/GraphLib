@@ -17,6 +17,7 @@ def make_parser():
     report: Создание нового отчета о сравнении алгоритмов по использованию времени и памяти, 
         основанного на случайно сгенерированных данных.
     """
+
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=description)

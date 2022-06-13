@@ -22,6 +22,7 @@ algs_single_path = {'dijkstra': dijkstra.find_shortest_path,
 
 def handle_report_cmd(args):
     """Выолняет команду создания отчета из командной строки"""
+
     min_size, max_size = args.min_graph_size[0], args.max_graph_size[0]
     if max_size - min_size < 10:
         log_func(f'Укажите диапазон больше чем '
@@ -36,6 +37,7 @@ def handle_report_cmd(args):
 
 def handle_find_path_cmd(args):
     """Выолняет команду поиска пути из командной строки"""
+
     graph, source, destination = read_graph_file(
         args.path[0], args.format[0])
     if destination == '-':
@@ -50,6 +52,7 @@ def handle_find_path_cmd(args):
 
 def handle_test_cmd():
     """Выолняет команду запуска тестов из командной строки"""
+
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
 
 
@@ -59,6 +62,7 @@ def process_alg_result(result):
 
     :param result: результат поиска пути, возвращаемый всеми алгоритмами
     """
+
     path_or_info, distance = result
     ok, res = path_or_info
     if not ok:

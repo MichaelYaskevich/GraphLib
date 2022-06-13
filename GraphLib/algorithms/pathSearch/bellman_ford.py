@@ -3,16 +3,16 @@ from GraphLib.dataStructures.di_graph import DiGraph
 
 def find_shortest_paths(graph: DiGraph, source):
     """
-    Finds shortest paths from source vertex to all other nodes.
+    Находит кратчайшие пути от исходной вершины до всех остальных вершин.
+    Граф может иметь ребра с отрицательными весами.
 
-    Graph can have edges with negative weights.
+    :выдает NegativeCycleError: если в графе есть отрицательные циклы
 
-    :raises NegativeCycleError if there are negative cycles in graph
-
-    :param graph: Digraph
-    :param source: first vertex in path
-    :return: shortest paths with distances
+    :param graph: DiGraph
+    :param source: первая вершина в пути
+    :return: итератор пар (результат get_path, расстояние до вершины)
     """
+
     from GraphLib.algorithms.pathSearch.path_search_help_functions \
         import get_paths_from_source_to_all
     from GraphLib.algorithms.pathSearch.bellman_ford_help_functions \
@@ -24,6 +24,18 @@ def find_shortest_paths(graph: DiGraph, source):
 
 
 def find_shortest_path(graph: DiGraph, source, destination):
+    """
+    Находит кратчайшие пути от исходной вершины до всех остальных вершин.
+    Граф может иметь ребра с отрицательными весами.
+
+    :выдает NegativeCycleError: если в графе есть отрицательные циклы
+
+    :param graph: DiGraph
+    :param source: первая вершина в пути
+    :param destination: последняя вершина в пути
+    :return: кортеж (результат get_path, расстояние до вершины)
+    """
+
     from GraphLib.algorithms.pathSearch.path_search_help_functions \
         import get_path
     from GraphLib.algorithms.pathSearch.bellman_ford_help_functions \

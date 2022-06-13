@@ -3,6 +3,7 @@ from pathlib import Path
 from PIL import Image
 from PIL import ImageChops
 
+from GraphLib.profiler.visualization_data import VisualizationData
 from GraphLib.profiler.approximation import approximate
 from GraphLib.profiler.visualization import visualize_time, visualize_memory
 
@@ -36,8 +37,10 @@ class VisualizationTests(unittest.TestCase):
         expected_image = Image.open(
             Path(ROOT_DIR, 'Tests\\resources\\expected_plot.png'))
 
-        visualize_time(dictionaries, labels, point_dictionaries,
-                       confidence_intervals, ['black', 'blue'], path)
+        data = VisualizationData(
+            dictionaries, point_dictionaries, confidence_intervals)
+
+        visualize_time(data, labels, ['black', 'blue'], path)
 
         actual_image = Image.open(path)
 

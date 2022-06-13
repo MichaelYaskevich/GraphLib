@@ -3,11 +3,11 @@ from GraphLib.dataStructures.di_graph import DiGraph
 
 def find_shortest_paths_from_all_to_all(graph: DiGraph):
     """
-    This algorithm finds shortest paths in a directed weighted graph
-        with positive or negative edge weights
+    Этот алгоритм находит кратчайшие пути в направленном взвешенном графе
+        с положительными или отрицательными весами ребер.
 
     :param graph: DiGraph
-    :return: matrix of distances and matrix of previous
+    :return: матрица расстояний и матрица предыдущих
     """
 
     from GraphLib.algorithms.pathSearch.floyd_help_functions import \
@@ -28,12 +28,13 @@ def find_shortest_paths_from_all_to_all(graph: DiGraph):
 
 def find_shortest_paths_from_source(graph: DiGraph, source):
     """
-    This algorithm finds shortest paths from source node to all other nodes
-         in a directed weighted graph with positive or negative edge weights
+    Этот алгоритм находит кратчайшие пути от исходного узла
+    ко всем другим узлам в направленном взвешенном графе
+    с положительными или отрицательными весами ребер.
 
     :param graph: DiGraph
-    :param source: first node in path
-    :return: list of paths
+    :param source: первый узел в пути
+    :return: итератор пар (результат get_path, расстояние до вершины)
     """
 
     source = str(source)
@@ -45,11 +46,14 @@ def find_shortest_paths_from_source(graph: DiGraph, source):
 
 def find_shortest_path(graph: DiGraph, source, destination):
     """
-    This algorithm finds shortest path from source node to destination node
-    :param source: first node in path
-    :param destination: last node in path
-    :return: path from source to destination or None and distance
+    Этот алгоритм находит кратчайший путь от узла-источника до узла назначения.
+
+    :param graph: DiGraph
+    :param source: первый узел в пути
+    :param destination: последний узел в пути
+    :return: кортеж (результат get_path, расстояние до вершины)
     """
+
     source, destination = str(source), str(destination)
     dist, prior_matrix = find_shortest_paths_from_all_to_all(graph)
     return get_path(source, destination, prior_matrix), dist[destination]
@@ -57,11 +61,13 @@ def find_shortest_path(graph: DiGraph, source, destination):
 
 def get_path(source, destination, prior_matrix):
     """
-    This algorithm finds shortest path from source node to destination node
-    :param source: first node in path
-    :param destination: last node in path
-    :param prior_matrix: matrix where information about path is stored
-    :return: path from source to destination or None
+    Этот алгоритм находит кратчайший путь
+    от source до destination.
+
+    :param source: первый узел в пути
+    :param destination: последний узел в пути
+    :param prior_matrix: матрица, в которой хранится информация о пути
+    :return: путь от источника к пункту назначения или None
     """
 
     intermediate_node = prior_matrix[source][destination]

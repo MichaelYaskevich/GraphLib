@@ -28,6 +28,13 @@ class DiGraph(Graph):
 
 
 def is_cyclic(graph: Graph):
+    """
+    Проверяет есть ли в графе цикл.
+
+    :param graph: Graph
+    :return: true если найден цикл, иначе - false
+    """
+
     path = set()
     visited = set()
 

@@ -1,4 +1,3 @@
-#TODO: docstrings а русском
 class NegativeCycleError(RuntimeError):
     """
     Некоторые алгоритмы вызывают это исключение

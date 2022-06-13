@@ -1,5 +1,6 @@
 from GraphLib.dataStructures.di_graph import DiGraph
 from GraphLib.dataStructures.edge import Edge
+from GraphLib.dataStructures.exception import FileInWrongFormatError
 
 
 def read_graph_file(path, format):

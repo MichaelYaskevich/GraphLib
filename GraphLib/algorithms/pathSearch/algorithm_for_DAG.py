@@ -8,15 +8,15 @@ from GraphLib.dataStructures.exception import CycleError
 
 def find_shortest_paths(graph: DiGraph, source):
     """
-    Finds shortest paths in directed acyclic graph (DAG)
-        from source vertex to all other nodes.
+    Находит кратчайшие пути в направленном ациклическом графе (DAG)
+        от исходной вершины до всех остальных вершин.
 
-    Graph can have edges with negative weights.
+    Граф может иметь ребра с отрицательными весами.
 
-    :raises CycleError if there are negative cycles in graph
+    :raises CycleError: если граф содержит цикл
     :param graph: Digraph
-    :param source: first vertex in path
-    :return: shortest path tree with distances
+    :param source: первая вершина в пути
+    :return: итератор пар (результат get_path, расстояние до вершины)
     """
 
     from GraphLib.algorithms.pathSearch.path_search_help_functions \
@@ -31,13 +31,15 @@ def find_shortest_paths(graph: DiGraph, source):
 
 def topological_sort(adjacency_lists):
     """
-    Sort vertexes in topological order
+    Сортировка вершин в топологическом порядке
 
-    :param adjacency_lists: dictionary with vertexes as keys
-        and lists of adjacent vertexes as values
-    :return: vertexes in topological order
-    :raises CycleError if graph contains cycle
+    :raises CycleError: если граф содержит цикл
+
+    :param adjacency_lists: словарь с вершинами в качестве ключей
+        и списками смежных вершин в качестве значений
+    :return: вершины в топологическом порядке
     """
+
     from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import \
         initialize_input_degrees, initialize_queue, visit
 
@@ -60,10 +62,11 @@ def topological_sort(adjacency_lists):
 
 def get_cycle(adjacency_lists):
     """
-    Finds cycle in graph
-    :param adjacency_lists: representation of graph
-    :return: cycle as list of nodes or None
+    Находит цикл в графе
+    :param adjacency_lists: представление графа
+    :return: цикл как список узлов или None
     """
+
     prev = {}
     if len(adjacency_lists) < 2:
         return None
@@ -88,6 +91,19 @@ def get_cycle(adjacency_lists):
 
 
 def find_shortest_path(graph: DiGraph, source, destination):
+    """
+    Находит кратчайшие пути в направленном ациклическом графе (DAG)
+        от source до destination.
+    Граф может иметь ребра с отрицательными весами.
+
+    :raises CycleError: если граф содержит цикл
+
+    :param graph: Digraph
+    :param source: первая вершина в пути
+    :param destination: последняя вершина в пути
+    :return: кортеж (результат get_path, расстояние до вершины)
+    """
+
     from GraphLib.algorithms.pathSearch.path_search_help_functions \
         import get_path
     from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods \

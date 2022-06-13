@@ -2,11 +2,10 @@ from pathlib import Path
 from random import randint
 from time import time
 from docx import Document
-from docx.shared import Pt
-from docx.shared import Mm
+from docx.shared import Pt, Mm
+from main import log_func
 
 from memory_profiler import memory_usage
-
 
 from GraphLib.algorithms.pathSearch import \
     dijkstra, bellman_ford, algorithm_for_DAG, floyd
@@ -84,12 +83,25 @@ def profile_all_algorithms(path, min_size, max_size):
     doc.add_paragraph(''.join(info_list))
     doc.add_picture(str(memory_path), width=Mm(170))
     doc.add_picture(str(time_path), width=Mm(170))
-    doc.save(str(path))
+
+    save_document(doc, Path(path))
+
+
+def save_document(doc, path):
+    if path.is_dir():
+        doc.save(path / 'report.docx')
+    else:
+        if path.suffix != '.docx':
+            doc.save(path.with_suffix('.docx'))
+            log_func(f'Расширение файла было изменено '
+                     f'с {path.suffix} на .docx')
+        else:
+            doc.save(path)
 
 
 def generate_graphs(min_size, max_size):
     result = []
-    step = max(4, (max_size-min_size)//8)
+    step = max(4, (max_size - min_size) // 8)
     for i in range(max(min_size, 2), max_size, step):
         graph = generate_random_graph(i, 0, 1000)
         result.append((graph, randint(0, i - 1)))
@@ -122,8 +134,11 @@ def get_times_and_memory_usage(func, graph, source):
     times = []
     for i in range(average_runs_count):
         current_run_start = time()
-        list(func(graph, source))
-        times.append(time() - current_run_start)
+        count = 0
+        while time() - current_run_start == 0.0:
+            list(func(graph, source))
+            count += 1
+        times.append((time() - current_run_start)/count)
     memory_us = memory_usage(proc=lambda: list(func(graph, source)),
                              max_usage=False, backend="psutil",
                              include_children=True)
@@ -140,18 +155,18 @@ def make_report(label, time_statistics, memory_statistics):
     Minimum time spent is {time_statistic.minimum} seconds
     Maximum time spent is {time_statistic.maximum} seconds
     Standard deviation is {time_statistic.std_deviation} seconds
-    Confidence interval (delta) for time """\
+    Confidence interval (delta) for time """ \
            f"""is {time_statistic.confidence_interval}'\n\n
     ------------------------ MEMORY INFO ------------------------
     Average memory usage is {memory_statistic.avg} MiB
     Minimum memory usage is {memory_statistic.minimum} MiB
     Maximum memory usage is {memory_statistic.maximum} MiB
     Standard deviation is {memory_statistic.std_deviation} MiB
-    Confidence interval (delta) """\
+    Confidence interval (delta) """ \
            f"""for memory is {memory_statistic.confidence_interval}\n\n\n\n
     """
 
-    print(info)
+    log_func(info)
 
     return info
 

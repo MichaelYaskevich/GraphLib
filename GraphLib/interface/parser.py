@@ -43,12 +43,14 @@ def add_report_parser(subparsers):
 
     report_parser = subparsers.add_parser(
         'report',
-        description="""Создание нового отчета о сравнении алгоритмов по использованию времени и памяти, 
+        description="""Создание нового отчета о сравнении 
+        алгоритмов по использованию времени и памяти, 
         основанного на случайно сгенерированных данных.""",
         formatter_class=argparse.RawDescriptionHelpFormatter)
     report_parser.add_argument(
         'path', type=str, nargs=1,
-        help='Путь по которому следует сохранить отчет.')
+        help='Абсолютный или относительный путь, '
+             'по которому следует сохранить отчет.')
     report_parser.add_argument(
         'min_graph_size', type=int, nargs=1,
         help='Минимальное количество узлов в генерируемых графах.')
@@ -74,7 +76,7 @@ def add_find_path_parser(subparsers):
         formatter_class=argparse.RawDescriptionHelpFormatter)
     find_path_parser.add_argument(
         'path', type=str, nargs=1,
-        help=f'Полный путь до файла с графом.')
+        help=f'Абсолютный или относительный путь до файла с графом.')
     find_path_parser.add_argument(
         'format', type=str, nargs=1, choices=['al', 'wm'],
         help='Выберете формат в котором описан граф: \n'

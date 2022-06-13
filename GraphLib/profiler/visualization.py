@@ -39,7 +39,4 @@ def visualize(data_dictionaries: list, labels: list,
             shift = confidence_intervals[i][key] / 2.0
             plt.plot([key, key], [value - shift, value + shift],
                      color=colors[i])
-    if isinstance(pdf_or_path, Path):
-        plt.savefig(pdf_or_path)
-    else:
-        pdf_or_path.savefig()
+    plt.savefig(pdf_or_path)

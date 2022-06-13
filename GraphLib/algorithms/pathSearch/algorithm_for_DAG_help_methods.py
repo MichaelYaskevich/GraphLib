@@ -56,7 +56,8 @@ def visit(deg_in_list, vertex, visited_queue):
         visited_queue.put(vertex)
 
 
-def update_distances(graph: DiGraph, distances: dict, previous: dict, vertex):
+def update_distances(
+        graph: DiGraph, distances: dict, previous: dict, vertex):
     """
     Обновляет расстояния до соседей vertex.
 

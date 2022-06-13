@@ -40,8 +40,8 @@ def topological_sort(adjacency_lists):
     :return: вершины в топологическом порядке
     """
 
-    from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import \
-        initialize_input_degrees, initialize_queue, visit
+    from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods \
+        import initialize_input_degrees, initialize_queue, visit
 
     deg_in = initialize_input_degrees(adjacency_lists)
     visited = initialize_queue(deg_in, adjacency_lists.keys())

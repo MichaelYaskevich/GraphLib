@@ -23,7 +23,8 @@ class Statistic:
 
     def calculate_confidence_interval(self):
         warnings.simplefilter("ignore", RuntimeWarning)
-        interval = st.t.interval(alpha=self.precision, df=len(self.array) - 1,
+        interval = st.t.interval(alpha=self.precision,
+                                 df=len(self.array) - 1,
                                  loc=np.mean(self.array),
                                  scale=st.sem(self.array))
         return interval[1] - interval[0]

@@ -28,7 +28,7 @@ def profile_all_algorithms(path, min_size, max_size):
     алгоритмов по использованию времени и памяти,
     основанного на случайно сгенерированных данных.
 
-    :param path: Абсолютный или относительный путь для сохранения файла docx с результатами
+    :param path: путь для сохранения файла docx с результатами
     :param min_size: Минимальное количество узлов в генерируемых графах.
     :param max_size: Максимальное количество узлов в генерируемых графах.
     """
@@ -39,7 +39,6 @@ def profile_all_algorithms(path, min_size, max_size):
     info_list = []
     graphs = generate_graphs(min_size, max_size)
 
-    # args = generate_worst_case_bf_graphs(min_size, max_size)
     for label, alg in algs_all_paths.items():
         graph_sizes, time_statistics, mem_statistics, info = \
             profile(alg, graphs, label)
@@ -70,7 +69,7 @@ def adapt_for_visualization(graph_sizes, statistics):
 
     :param graph_sizes: количества вершин графов
     :param statistics: экземпляры класса Statistic
-    :return: точки аппроксимируещей функции, точки отображающие результаты, доверительные интервалы
+    :return: точки функции, точки результатов, доверительные интервалы
     """
 
     n = len(graph_sizes)
@@ -111,7 +110,7 @@ def generate_best_case_bf_graphs(min_size, max_size):
     :param func: запускаемый алгоритм
     :param args: аргументы для алгоритма граф с вершиной - источником
     :param alg_name: название алгоритма
-    :return: количества вершин графов, Statistic для времени, Statistic для памяти, часть отчета
+    :return: размеры графов, Statistic для времени и памяти, часть отчета
     """
 
     time_statistics = []
@@ -181,7 +180,7 @@ def make_report(alg_name, time_statistics, memory_statistics):
     time_statistic = combine_data(time_statistics)
     memory_statistic = combine_data(memory_statistics)
     report_part = f"""
-    ------------------> RESULTS OF PROFILING {alg_name} <------------------\n\n
+    -----------------> RESULTS OF PROFILING {alg_name} <-----------------\n\n
     ------------------------- TIME INFO -------------------------
     Average time spent is {time_statistic.avg} seconds
     Minimum time spent is {time_statistic.minimum} seconds

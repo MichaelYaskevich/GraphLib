@@ -16,7 +16,8 @@ def generate_random_graph(nodes_count, min_weight, max_weight):
 
     if nodes_count <= 0:
         raise ValueError(f"Inappropriate value for nodes_count: "
-                         f"{nodes_count}, nodes_count can't be zero or less")
+                         f"{nodes_count}, nodes_count "
+                         f"can't be zero or less")
     if min_weight > max_weight:
         raise ValueError(f'Min_weight parameter ({min_weight}) '
                          f'is bigger than max_weight ({max_weight})')
@@ -38,7 +39,8 @@ def generate_random_graph(nodes_count, min_weight, max_weight):
     return graph
 
 
-def generate_worst_case_graph_for_bellman_ford(nodes_count, min_weight, max_weight):
+def generate_worst_case_graph_for_bellman_ford(
+        nodes_count, min_weight, max_weight):
     graph = DiGraph()
     nodes = [str(x) for x in range(nodes_count)]
 
@@ -54,7 +56,8 @@ def generate_worst_case_graph_for_bellman_ford(nodes_count, min_weight, max_weig
     return graph
 
 
-def generate_best_case_graph_for_bellman_ford(nodes_count, min_weight, max_weight):
+def generate_best_case_graph_for_bellman_ford(
+        nodes_count, min_weight, max_weight):
     graph = DiGraph()
     nodes = [str(x) for x in range(nodes_count)]
 
@@ -62,7 +65,9 @@ def generate_best_case_graph_for_bellman_ford(nodes_count, min_weight, max_weigh
         graph.add_node(node)
 
     for x in range(nodes_count - 1):
-        graph.add_edge(Edge(str(x), str(x + 1), uniform(min_weight, max_weight)))
+        graph.add_edge(
+            Edge(str(x), str(x + 1),
+                 uniform(min_weight, max_weight)))
 
     return graph
 

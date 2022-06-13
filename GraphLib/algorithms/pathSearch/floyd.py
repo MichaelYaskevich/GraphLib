@@ -41,12 +41,14 @@ def find_shortest_paths_from_source(graph: DiGraph, source):
     distances, prior_matrix = find_shortest_paths_from_all_to_all(graph)
     for node in graph.get_nodes():
         if node != source:
-            yield get_path(source, node, prior_matrix), distances[source][node]
+            yield get_path(
+                source, node, prior_matrix), distances[source][node]
 
 
 def find_shortest_path(graph: DiGraph, source, destination):
     """
-    Этот алгоритм находит кратчайший путь от узла-источника до узла назначения.
+    Этот алгоритм находит кратчайший путь
+    от узла-источника до узла назначения.
 
     :param graph: DiGraph
     :param source: первый узел в пути

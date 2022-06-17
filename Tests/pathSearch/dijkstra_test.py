@@ -1,7 +1,7 @@
 import unittest
 
 from GraphLib.algorithms.pathSearch.dijkstra_help_functions import *
-from Tests.dataStructures.graph_making_functions import *
+from Tests.dataStructures.graph_making_functions_test import *
 
 
 class DijkstraTests(unittest.TestCase):

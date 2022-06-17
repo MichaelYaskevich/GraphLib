@@ -2,7 +2,7 @@ import unittest
 
 from GraphLib.algorithms.pathSearch.algorithm_for_DAG import *
 from GraphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods import *
-from Tests.dataStructures.graph_making_functions import *
+from Tests.dataStructures.graph_making_functions_test import *
 
 
 class AlgorithmForDagTests(unittest.TestCase):

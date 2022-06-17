@@ -2,7 +2,7 @@ import unittest
 
 
 from GraphLib.algorithms.pathSearch.bellman_ford_help_functions import *
-from Tests.dataStructures.graph_making_functions import *
+from Tests.dataStructures.graph_making_functions_test import *
 
 
 class BellmanFordTests(unittest.TestCase):

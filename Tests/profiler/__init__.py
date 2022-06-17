@@ -1,2 +1,2 @@
-from .profiler_tests import *
-from .visualization_tests import *
+from .profiler_test import *
+from .visualization_test import *

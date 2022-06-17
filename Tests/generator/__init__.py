@@ -1,1 +1,1 @@
-from .generator_tests import *
+from .generator_test import *

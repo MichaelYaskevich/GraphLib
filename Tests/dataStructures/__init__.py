@@ -1,2 +1,2 @@
-from .di_graph_tests import *
-from .graph_tests import *
+from .di_graph_test import *
+from .graph_test import *

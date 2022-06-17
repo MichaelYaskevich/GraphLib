@@ -15,19 +15,19 @@ def enable_imports_from_project():
 
 if __name__ == '__main__':
     enable_imports_from_project()
-    from GraphLib.interface.parser import make_parser
+    from graphLib.interface.parser import make_parser
 
     try:
         parser = make_parser()
         args = parser.parse_args()
 
-        from GraphLib.interface.command_handlers import \
+        from graphLib.interface.command_handlers import \
             handle_report_cmd, handle_find_path_cmd, handle_test_cmd
 
         if args.name == 'report':
             handle_report_cmd(args)
         elif args.name == 'test':
-            from Tests import *
+            from tests import *
             handle_test_cmd()
         else:
             handle_find_path_cmd(args)

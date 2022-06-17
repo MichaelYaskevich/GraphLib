@@ -32,4 +32,4 @@ if __name__ == '__main__':
         else:
             handle_find_path_cmd(args)
     except Exception as e:
-        log_func(e.args[0])
+        log_func('Program finished with code -1.')

@@ -1,4 +1,4 @@
-from .dataStructures import *
+from .data_structures import *
 from .generator import *
-from .pathSearch import *
+from .algorithms import *
 from .profiler import *

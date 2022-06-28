@@ -1,11 +1,10 @@
-from sys import path
-
-
 log_func = print
 
 
 def enable_imports_from_project():
     """Добавляет проект в список путей из которых можно импортировать"""
+    from sys import path
+    from pathlib import Path
 
     ROOT_DIR = str(Path(__file__).parent)
     if ROOT_DIR not in path:
@@ -17,21 +16,19 @@ def enable_imports_from_project():
 #TODO: исправить help (сделать понятнее использование внутренних парсеров + help без -- во внутренних парсерах)
 if __name__ == '__main__':
     enable_imports_from_project()
-    from graphLib.interface.parser import make_parser
+    from src.interface.parser import make_parser
 
-    try:
-        parser = make_parser()
-        args = parser.parse_args()
+    parser = make_parser()
+    args = parser.parse_args()
 
-        from graphLib.interface.command_handlers import \
-            handle_report_cmd, handle_find_path_cmd, handle_test_cmd
+    from src.interface.command_handlers import \
+        handle_report_cmd, handle_find_path_cmd, handle_test_cmd
 
-        if args.name == 'report':
-            handle_report_cmd(args)
-        elif args.name == 'test':
-            from tests import *
-            handle_test_cmd()
-        else:
-            handle_find_path_cmd(args)
-    except Exception as e:
-        log_func('Program finished with code -1.')
+    if args.name == 'report':
+        handle_report_cmd(args)
+    elif args.name == 'test':
+        from tests import *
+
+        handle_test_cmd()
+    else:
+        handle_find_path_cmd(args)

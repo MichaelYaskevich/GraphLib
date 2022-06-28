@@ -5,11 +5,11 @@ from memory_profiler import memory_usage
 from main import log_func
 from graphLib.algorithms.pathSearch import \
     dijkstra, bellman_ford, algorithm_for_DAG, floyd
-from graphLib.generator.generator import generate_graphs
-from graphLib.profiler.visualization_data import VisualizationData
-from graphLib.profiler.approximation import approximate
-from graphLib.profiler.statistic import Statistic
-from graphLib.profiler.visualization import make_docx, save_document
+from generator.generator import generate_graphs
+from profiler.visualization_data import VisualizationData
+from profiler.approximation import approximate
+from profiler.statistic import Statistic
+from profiler.visualization import make_docx, save_document
 
 dummy_runs_count = 5
 average_runs_count = 21

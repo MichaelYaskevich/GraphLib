@@ -1,7 +1,4 @@
-from graphLib.dataStructures.di_graph import DiGraph
-
-
-def find_shortest_paths(graph: DiGraph, source):
+def find_shortest_paths(graph, source):
     """
     Находит кратчайшие пути от исходной вершины до всех остальных вершин.
     Граф может иметь ребра с отрицательными весами.
@@ -23,7 +20,7 @@ def find_shortest_paths(graph: DiGraph, source):
     return get_paths_from_source_to_all(source, prev, dist)
 
 
-def find_shortest_path(graph: DiGraph, source, destination):
+def find_shortest_path(graph, source, destination):
     """
     Находит кратчайшие пути от исходной вершины до всех остальных вершин.
     Граф может иметь ребра с отрицательными весами.

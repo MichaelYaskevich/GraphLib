@@ -1,6 +1,6 @@
 import unittest
 
-from graphLib.generator.generator import generate_random_graph
+from generator.generator import generate_random_graph
 
 
 class GeneratorTests(unittest.TestCase):

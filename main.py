@@ -1,5 +1,4 @@
 from sys import path
-from pathlib import Path
 
 
 log_func = print
@@ -13,6 +12,9 @@ def enable_imports_from_project():
         path.append(ROOT_DIR)
 
 
+#TODO: замеры памяти другой функцией на больших графах и этой функцией на больших графах
+#TODO: импорт модулей
+#TODO: исправить help (сделать понятнее использование внутренних парсеров + help без -- во внутренних парсерах)
 if __name__ == '__main__':
     enable_imports_from_project()
     from graphLib.interface.parser import make_parser

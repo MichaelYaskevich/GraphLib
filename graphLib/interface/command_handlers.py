@@ -1,7 +1,7 @@
 import unittest
 
 
-from graphLib.profiler.profiler import profile_all_algorithms
+from profiler import profile_all_algorithms
 from graphLib.interface.read_functions import read_graph_file
 from graphLib.algorithms.pathSearch \
     import dijkstra, bellman_ford, algorithm_for_DAG, floyd

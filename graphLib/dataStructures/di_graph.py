@@ -1,5 +1,3 @@
-import queue
-
 from graphLib.dataStructures.edge import Edge
 from graphLib.dataStructures.graph import Graph
 

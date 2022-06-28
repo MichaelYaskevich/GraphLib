@@ -1,7 +1,4 @@
-from graphLib.dataStructures.di_graph import DiGraph
-
-
-def find_shortest_paths_from_all_to_all(graph: DiGraph):
+def find_shortest_paths_from_all_to_all(graph):
     """
     Этот алгоритм находит кратчайшие пути в направленном взвешенном графе
         с положительными или отрицательными весами ребер.
@@ -26,7 +23,7 @@ def find_shortest_paths_from_all_to_all(graph: DiGraph):
     return distances, prior_matrix
 
 
-def find_shortest_paths_from_source(graph: DiGraph, source):
+def find_shortest_paths_from_source(graph, source):
     """
     Этот алгоритм находит кратчайшие пути от исходного узла
     ко всем другим узлам в направленном взвешенном графе
@@ -45,7 +42,7 @@ def find_shortest_paths_from_source(graph: DiGraph, source):
                 source, node, prior_matrix), distances[source][node]
 
 
-def find_shortest_path(graph: DiGraph, source, destination):
+def find_shortest_path(graph, source, destination):
     """
     Этот алгоритм находит кратчайший путь
     от узла-источника до узла назначения.

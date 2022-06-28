@@ -1,12 +1,4 @@
-import queue
-
-from graphLib.algorithms.pathSearch.bellman_ford_help_functions \
-    import build_cycle
-from graphLib.dataStructures.di_graph import DiGraph
-from graphLib.dataStructures.exception import CycleError
-
-
-def find_shortest_paths(graph: DiGraph, source):
+def find_shortest_paths(graph, source):
     """
     Находит кратчайшие пути в направленном ациклическом графе (DAG)
         от исходной вершины до всех остальных вершин.
@@ -42,6 +34,7 @@ def topological_sort(adjacency_lists):
 
     from graphLib.algorithms.pathSearch.algorithm_for_DAG_help_methods \
         import initialize_input_degrees, initialize_queue, visit
+    from graphLib.dataStructures.exception import CycleError
 
     deg_in = initialize_input_degrees(adjacency_lists)
     visited = initialize_queue(deg_in, adjacency_lists.keys())
@@ -66,6 +59,9 @@ def get_cycle(adjacency_lists):
     :param adjacency_lists: представление графа
     :return: цикл как список узлов или None
     """
+    from graphLib.algorithms.pathSearch.bellman_ford_help_functions \
+        import build_cycle
+    import queue
 
     prev = {}
     if len(adjacency_lists) < 2:
@@ -90,7 +86,7 @@ def get_cycle(adjacency_lists):
     return None
 
 
-def find_shortest_path(graph: DiGraph, source, destination):
+def find_shortest_path(graph, source, destination):
     """
     Находит кратчайшие пути в направленном ациклическом графе (DAG)
         от source до destination.

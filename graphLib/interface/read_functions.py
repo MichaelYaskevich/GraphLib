@@ -1,8 +1,3 @@
-from graphLib.dataStructures.di_graph import DiGraph
-from graphLib.dataStructures.edge import Edge
-from graphLib.dataStructures.exception import FileInWrongFormatError
-
-
 def read_graph_file(path, format):
     """
     Читает файл произвольного формата описывающий граф.
@@ -13,6 +8,7 @@ def read_graph_file(path, format):
     :param format: тип формата al (adjacency lists) или wm (weight matrix)
     :return: кортеж из 3-х элементов graph, source, target
     """
+    from graphLib.dataStructures.exception import FileInWrongFormatError
 
     with open(path, 'r') as graph_file:
         if format == 'al':
@@ -39,6 +35,8 @@ def read_adjacency_lists(get_line):
     :param get_line: генератор строк
     :return: кортеж из 3-х элементов graph, source, target
     """
+    from graphLib.dataStructures.di_graph import DiGraph
+    from graphLib.dataStructures.edge import Edge
 
     graph = DiGraph()
     n = int(get_line())
@@ -76,6 +74,8 @@ def read_weight_matrix(lines):
     :param lines: все строки
     :return: кортеж из 3-х элементов graph, source, target
     """
+    from graphLib.dataStructures.di_graph import DiGraph
+    from graphLib.dataStructures.edge import Edge
 
     graph = DiGraph()
     source = lines[-2].strip()

@@ -3,9 +3,9 @@ from pathlib import Path
 from PIL import Image
 from PIL import ImageChops
 
-from graphLib.profiler.visualization_data import VisualizationData
-from graphLib.profiler.approximation import approximate
-from graphLib.profiler.visualization import visualize_time, visualize_memory
+from profiler import VisualizationData
+from profiler.approximation import approximate
+from profiler import visualize_time
 
 
 class VisualizationTests(unittest.TestCase):

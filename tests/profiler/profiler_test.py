@@ -1,7 +1,6 @@
 import unittest
 
-from graphLib.profiler.profiler import *
-from graphLib.profiler.statistic import Statistic
+from src.profiler.profiler import Statistic
 
 times = [170.1, 156.3, 202.2, 196.6, 221.7,
          250.3, 187.8, 177.8, 206.4, 233.3, 199.9]

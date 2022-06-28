@@ -1,6 +1,6 @@
 import unittest
 
-from graphLib.profiler.approximation import approximate
+from src.profiler.approximation import approximate
 
 
 class ApproximationTests(unittest.TestCase):

@@ -82,7 +82,7 @@ def generate_graphs(min_size, max_size):
     """
 
     result = []
-    step = max(4, (max_size - min_size) // 8)
+    step = max(4, (max_size - min_size) // 12)
     for i in range(max(min_size, 2), max_size, step):
         graph = generate_random_graph(i, 0, 1000)
         result.append((graph, randint(0, i - 1)))

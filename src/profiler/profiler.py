@@ -10,8 +10,8 @@ from src.profiler.approximation import approximate
 from src.profiler.statistic import Statistic
 from src.profiler.visualization import make_docx, save_document
 
-dummy_runs_count = 5
-average_runs_count = 21
+dummy_runs_count = 3
+average_runs_count = 5
 algs_all_paths = {
     'dijkstra': dijkstra.find_shortest_paths,
     'bellman_ford': bellman_ford.find_shortest_paths,
@@ -33,10 +33,12 @@ def profile_all_algorithms(path, min_size, max_size):
     """
 
     memory = VisualizationData([], [], [])
-    time = VisualizationData([], [], [])
+    times = VisualizationData([], [], [])
     labels = []
     info_list = []
     graphs = generate_graphs(min_size, max_size)
+    print('... Random graphs generation completed')
+    print('Profiling has started')
 
     for label, alg in algs_all_paths.items():
         graph_sizes, time_statistics, mem_statistics, info = \
@@ -53,11 +55,11 @@ def profile_all_algorithms(path, min_size, max_size):
 
         time_data, time_points, time_conf_intervals = \
             adapt_for_visualization(graph_sizes, time_statistics)
-        time.data_dictionaries.append(time_data)
-        time.points_dictionaries.append(time_points)
-        time.confidence_intervals.append(time_conf_intervals)
+        times.data_dictionaries.append(time_data)
+        times.points_dictionaries.append(time_points)
+        times.confidence_intervals.append(time_conf_intervals)
 
-    doc = make_docx(info_list, labels, colors, memory, time)
+    doc = make_docx(info_list, labels, colors, memory, times)
 
     save_document(doc, Path(path))
 
@@ -85,26 +87,6 @@ def adapt_for_visualization(graph_sizes, statistics):
 def profile(func, args, alg_name):
     """
     Проводит профилирование алгоритма на предоставленных графах.
-    return result
-
-
-def generate_worst_case_bf_graphs(min_size, max_size):
-    result = []
-    step = max(4, (max_size-min_size)//8)
-    for i in range(max(min_size, 2), max_size, step):
-        graph = generate_worst_case_graph_for_bellman_ford(i, 0, 1000)
-        result.append((graph, randint(0, i - 1)))
-
-    return result
-
-
-def generate_best_case_bf_graphs(min_size, max_size):
-    result = []
-    step = max(4, (max_size-min_size)//8)
-    for i in range(max(min_size, 2), max_size, step):
-        graph = generate_best_case_graph_for_bellman_ford(i, 0, 1000)
-        result.append((graph, i - 1))
-
 
     :param func: запускаемый алгоритм
     :param args: аргументы для алгоритма граф с вершиной - источником
@@ -186,7 +168,7 @@ def make_report(alg_name, time_statistics, memory_statistics):
     Maximum time spent is {time_statistic.maximum} seconds
     Standard deviation is {time_statistic.std_deviation} seconds
     Confidence interval (delta) for time """ \
-           f"""is {time_statistic.confidence_interval}'\n\n
+           f"""is {time_statistic.confidence_interval}\n\n
     ------------------------ MEMORY INFO ------------------------
     Average memory usage is {memory_statistic.avg} MiB
     Minimum memory usage is {memory_statistic.minimum} MiB

@@ -1,7 +1,7 @@
 import unittest
 
 from src.algorithms.dijkstra_help_functions import *
-from tests.data_structures.graph_making_functions_test import *
+from Tests.data_structures.graph_making_functions_test import *
 
 
 class DijkstraTests(unittest.TestCase):

@@ -11,12 +11,14 @@ def make_parser():
     """
 
     description = """
-    find_path: Поиск пути в графе от одной вершины до всех
+    find_path: Поиск пути в графе от одной вершины до всех 
         или путь от одной вершины до конкретной вершины.
     test: Запуск всех тестов проекта.
-    report: Создание нового отчета о сравнении алгоритмов
-     по использованию времени и памяти,
+    report: Создание нового отчета о сравнении алгоритмов по использованию времени и памяти, 
         основанного на случайно сгенерированных данных.
+    visualize: Визуализация пути в графе с помощью библиотеки networkx
+
+    Чтобы вызвать help определенного подпарсера, нужно написать python main.py имя_подпарсера -h
     """
 
     parser = argparse.ArgumentParser(
@@ -28,8 +30,39 @@ def make_parser():
     add_find_path_parser(subparsers)
     add_test_parser(subparsers)
     add_report_parser(subparsers)
+    add_visualize_parser(subparsers)
 
     return parser
+
+
+def add_visualize_parser(subparsers):
+    """Добавляет подпарсер graph_visualization"""
+
+    al_format = file_formats.graph_adjacency_list_file_format
+    wm_format = file_formats.graph_weight_matrix_file_format
+    visualize_parser = subparsers.add_parser(
+        'visualize',
+        description=f'Визуализация пути в графе от одной вершины до другой вершины\n'
+                    f'Для запуска необходимо указать путь '
+                    f'к txt файлу, который описывает граф\n'
+                    f'В файле обязательно должна быть указана начальная и конечная вершина\n'
+                    f'Граф может быть описан в следующих форматах:\n\n'
+                    f'====Списки смежности====\n{al_format}'
+                    f'\n\n====Матрица весов====\n{wm_format}',
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    visualize_parser.add_argument(
+        'path', type=str, nargs=1,
+        help=f'Абсолютный или относительный путь до файла, описывающего граф')
+    visualize_parser.add_argument(
+        'format', type=str, nargs=1, choices=['al', 'wm'],
+        help='Выберите формат, в котором описан граф: \n'
+             '"al" означает adjacency list, а\n'
+             ' "wm" означает weight matrix')
+    visualize_parser.add_argument(
+        'algorithm', type=str, nargs=1,
+        choices=['dijkstra', 'bellman_ford',
+                 'algorithm_for_dag', 'floyd'],
+        help=f'Алгоритм, который вы хотите использовать')
 
 
 def add_test_parser(subparsers):

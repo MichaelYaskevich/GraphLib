@@ -94,7 +94,7 @@ def find_vertex_index(vertexes, vertex):
 
 def find_shortest_paths(sorted_vertexes: list, graph: DiGraph, source):
     """
-    Finds shortest paths from source vertex to all other nodes.
+    Finds the shortest paths from source vertex to all other nodes.
 
     :param sorted_vertexes: vertexes in topological order
     :param graph: Digraph

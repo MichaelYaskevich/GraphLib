@@ -1,17 +1,17 @@
-def read_graph_file(path, format):
+def read_graph_file(path, file_format):
     """
     Читает файл произвольного формата описывающий граф.
 
     :raises FileInWrongFormatError если в файл не подходит по формату
 
     :param path: путь к файлу
-    :param format: тип формата al (adjacency lists) или wm (weight matrix)
+    :param file_format: тип формата al (adjacency lists) или wm (weight matrix)
     :return: кортеж из 3-х элементов graph, source, target
     """
     from src.data_structures.exception import FileInWrongFormatError
 
     with open(path, 'r') as graph_file:
-        if format == 'al':
+        if file_format == 'al':
             result = read_adjacency_lists(graph_file.readline)
             if graph_file.read() != '':
                 raise FileInWrongFormatError('Неверный формат файла.')

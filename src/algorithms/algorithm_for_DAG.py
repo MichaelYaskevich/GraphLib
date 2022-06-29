@@ -38,16 +38,16 @@ def topological_sort(adjacency_lists):
 
     deg_in = initialize_input_degrees(adjacency_lists)
     visited = initialize_queue(deg_in, adjacency_lists.keys())
-    sorted = []
+    result = []
 
     while visited.qsize() != 0:
         v = visited.get()
-        sorted.append(v)
+        result.append(v)
         for w in adjacency_lists[v]:
             visit(deg_in, w, visited)
 
-    if len(sorted) == len(adjacency_lists.keys()):
-        return sorted
+    if len(result) == len(adjacency_lists.keys()):
+        return result
 
     message = '-'.join(get_cycle(adjacency_lists))
     raise CycleError(f"There is a cycle {message}")

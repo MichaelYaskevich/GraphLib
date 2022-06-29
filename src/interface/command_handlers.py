@@ -1,6 +1,6 @@
 import unittest
 
-
+from src.graph_visualization.graph_visualization import visualize_graph
 from src.profiler.profiler import profile_all_algorithms
 from src.interface.read_functions import read_graph_file
 from graph_library.algorithms import dijkstra
@@ -21,16 +21,17 @@ algs_single_path = {'dijkstra': dijkstra.find_shortest_path,
 
 
 def handle_report_cmd(args):
-    """Выолняет команду создания отчета из командной строки"""
-
+    """Выполняет команду создания отчета из командной строки"""
     min_size, max_size = args.min_graph_size[0], args.max_graph_size[0]
-    if max_size - min_size < 10:
-        log_func(f'Укажите диапазон больше чем '
+    # max_allowed_size = 60
+    min_allowed_size = 10
+    if max_size - min_size < min_allowed_size:
+        log_func(f'Укажите диапазон больше, чем '
                  f'{min_size}-{max_size} '
                  f'чтобы сделать более точные вычисления')
-    elif max_size > 60:
-        log_func(f'{max_size} не должен быть больше чем 60, '
-                 f'чтобы профилирование не заняло много времени')
+    # elif max_size > max_allowed_size:
+    #     log_func(f'{max_size} не должен быть больше чем {max_allowed_size}, '
+    #              f'чтобы профилирование не заняло много времени')
     else:
         profile_all_algorithms(args.path[0], min_size, max_size)
 
@@ -54,6 +55,18 @@ def handle_test_cmd():
     """Выолняет команду запуска тестов из командной строки"""
 
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
+
+
+def handle_visualization(args):
+    """Выполняет команду визуализации графа, путь к которому передан в командной строке"""
+    graph, source, destination = read_graph_file(
+        args.path[0], args.format[0])
+    if destination == '-':
+        raise ValueError(f'Визуализация результата поиска пути в графе не может быть выполнена при поиске пути от'
+                         f' одной до всех вершин. Для корректной работы замените в файле, описывающем граф,'
+                         f' "-" на конкретную вершину')
+    alg = algs_single_path[args.algorithm[0]]
+    visualize_graph(graph, alg(graph, source, destination))
 
 
 def process_alg_result(result):

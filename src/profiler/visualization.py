@@ -83,8 +83,8 @@ def make_docx(info_list, labels, colors,
     """
 
     root = Path(__file__).parent.parent.parent
-    memory_path = Path(root, 'graph_library', 'resources', 'memory_image.png')
-    time_path = Path(root, 'graph_library', 'resources', 'time_image.png')
+    memory_path = Path(root, 'src', 'resources', 'memory_image.png')
+    time_path = Path(root, 'src', 'resources', 'time_image.png')
 
     visualize_memory(mem_data, labels, colors, memory_path)
     visualize_time(time_data, labels, colors, time_path)

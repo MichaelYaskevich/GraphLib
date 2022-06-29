@@ -3,7 +3,7 @@ import unittest
 from src.data_structures.exception import CycleError
 from src.algorithms.algorithm_for_DAG import *
 from src.algorithms.algorithm_for_DAG_help_functions import *
-from tests.data_structures.graph_making_functions_test import *
+from Tests.data_structures.graph_making_functions_test import *
 
 
 class AlgorithmForDagTests(unittest.TestCase):

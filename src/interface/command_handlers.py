@@ -23,15 +23,15 @@ algs_single_path = {'dijkstra': dijkstra.find_shortest_path,
 def handle_report_cmd(args):
     """Выполняет команду создания отчета из командной строки"""
     min_size, max_size = args.min_graph_size[0], args.max_graph_size[0]
-    # max_allowed_size = 60
+    max_allowed_size = 100
     min_allowed_size = 10
     if max_size - min_size < min_allowed_size:
         log_func(f'Укажите диапазон больше, чем '
                  f'{min_size}-{max_size} '
                  f'чтобы сделать более точные вычисления')
-    # elif max_size > max_allowed_size:
-    #     log_func(f'{max_size} не должен быть больше чем {max_allowed_size}, '
-    #              f'чтобы профилирование не заняло много времени')
+    elif max_size > max_allowed_size:
+        log_func(f'{max_size} не должен быть больше чем {max_allowed_size}, '
+                 f'чтобы профилирование не заняло много времени')
     else:
         profile_all_algorithms(args.path[0], min_size, max_size)
 

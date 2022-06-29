@@ -51,6 +51,13 @@ def visualize_graph(graph: Graph, result):
     colors = nx.get_edge_attributes(visualization, 'color').values()
     weights = nx.get_edge_attributes(visualization, 'weight').values()
     pos = nx.spring_layout(visualization)
-    nx.draw_networkx(visualization, pos=pos, edge_color=colors, width=list(weights), node_color=color_map)
-    nx.draw_networkx_edge_labels(visualization, pos=pos, edge_labels=labels, font_size=12)
+    nx.draw_networkx(visualization,
+                     pos=pos,
+                     edge_color=colors,
+                     width=list(weights),
+                     node_color=color_map)
+    nx.draw_networkx_edge_labels(visualization,
+                                 pos=pos,
+                                 edge_labels=labels,
+                                 font_size=12)
     plt.show()

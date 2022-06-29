@@ -46,7 +46,10 @@ def visualize_graph(graph: Graph, result):
                                    weight=1,
                                    color='black')
 
-    color_map = ['green' if node in nodes_in_path else 'orange' for node in visualization]
+    color_map = [
+        'green' if node in nodes_in_path
+        else 'orange'
+        for node in visualization]
 
     colors = nx.get_edge_attributes(visualization, 'color').values()
     weights = nx.get_edge_attributes(visualization, 'weight').values()

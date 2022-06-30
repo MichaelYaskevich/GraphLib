@@ -22,15 +22,14 @@ class GraphVisualization:
 
 def visualize_graph(graph: Graph, result):
     edges = graph.get_edges()
-    source, destination = result[0]
-    full_path = result[1]
+    is_ok, full_path = result[0]
     path = set()
     nodes_in_path = set(full_path)
     labels = {}
 
-    # if is_ok:
-    #     for i in range(len(full_path) - 1):
-    #         path.add((full_path[i], full_path[i + 1]))
+    if is_ok:
+        for i in range(len(full_path) - 1):
+            path.add((full_path[i], full_path[i + 1]))
 
     visualization = nx.DiGraph()
 
@@ -65,13 +64,3 @@ def visualize_graph(graph: Graph, result):
                                  edge_labels=labels,
                                  font_size=12)
     plt.show()
-
-
-def main():
-    from src.generator.generator import generate_random_graph
-    graph = generate_random_graph(20, 0, 1000)
-    visualize_graph()
-
-
-if __name__ == '__main__':
-    main()

@@ -12,11 +12,17 @@ def read_graph_file(path, file_format):
 
     with open(path, 'r') as graph_file:
         if file_format == 'al':
-            result = read_adjacency_lists(graph_file.readline)
+            try:
+                result = read_adjacency_lists(graph_file.readline)
+            except Exception:
+                raise FileInWrongFormatError('Неверный формат файла.')
             if graph_file.read() != '':
                 raise FileInWrongFormatError('Неверный формат файла.')
             return result
-        return read_weight_matrix(graph_file.readlines())
+        try:
+            return read_weight_matrix(graph_file.readlines())
+        except Exception:
+            raise FileInWrongFormatError('Неверный формат файла.')
 
 
 def read_adjacency_lists(get_line):

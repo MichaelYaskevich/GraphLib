@@ -1,12 +1,13 @@
+import sys
 import unittest
 
+from src.data_structures.exception import FileInWrongFormatError
 from src.graph_visualization.graph_visualization import visualize_graph
 from src.profiler.profiler import profile_all_algorithms
 from src.interface.read_functions import read_graph_file
 from graph_library.algorithms import dijkstra
 from src.algorithms import bellman_ford, algorithm_for_DAG, floyd
 from main import log_func
-
 
 algs_all_paths = {'dijkstra': dijkstra.find_shortest_paths,
                   'bellman_ford': bellman_ford.find_shortest_paths,
@@ -39,8 +40,13 @@ def handle_report_cmd(args):
 def handle_find_path_cmd(args):
     """Выолняет команду поиска пути из командной строки"""
 
-    graph, source, destination = read_graph_file(
-        args.path[0], args.format[0])
+    try:
+        graph, source, destination = read_graph_file(
+            args.path[0], args.format[0])
+    except FileInWrongFormatError as e:
+        log_func(e.args[0])
+        sys.exit(1)
+
     if destination == '-':
         alg = algs_all_paths[args.algorithm[0]]
         for result in alg(graph, source):
@@ -60,14 +66,21 @@ def handle_test_cmd():
 def handle_visualization(args):
     """Выполняет команду визуализации графа,
     путь к которому передан в командной строке"""
-    graph, source, destination = read_graph_file(
-        args.path[0], args.format[0])
-    if destination == '-':
-        raise ValueError(f'Визуализация результата поиска пути в графе не '
-                         f'может быть выполнена при поиске пути от '
-                         f'одной до всех вершин. Для корректной работы '
-                         f'замените в файле, описывающем граф, '
-                         f'"-" на конкретную вершину')
+
+    try:
+        graph, source, destination = read_graph_file(
+            args.path[0], args.format[0])
+        if destination == '-':
+            raise FileInWrongFormatError(
+                f'Визуализация результата поиска пути в графе не '
+                f'может быть выполнена при поиске пути от '
+                f'одной до всех вершин. Для корректной работы '
+                f'замените в файле, описывающем граф, '
+                f'"-" на конкретную вершину')
+    except FileInWrongFormatError as e:
+        log_func(e.args[0])
+        sys.exit(1)
+
     alg = algs_single_path[args.algorithm[0]]
     visualize_graph(graph, alg(graph, source, destination))
 

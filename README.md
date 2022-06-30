@@ -26,7 +26,9 @@
 
 ####Заранее подготовленные графы в виде txt файлов хранятся в GraphLib\resources\graphs
 ####Пример использования графа из ресурсов:
-...\GraphLib>python main.py find_path GraphLib\resources\graphs\graph1.txt al dijkstra
+...\GraphLib>python main.py find_path src\resources\graphs\graph1.txt al dijkstra
+####или
+...\GraphLib>python main.py visualize src\resources\graphs\graph4.txt al dijkstra
 ####Более подробная информация об аргументах находится в help для конкретного типа запуска
 
 

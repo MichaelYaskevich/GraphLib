@@ -20,7 +20,7 @@ def get_path(source, destination, previous: dict):
     :param source: вершина-начало
     :param destination: вершина-конец
     :param previous: массив предыдущих
-    :return: кортеж (true, (source, destination)) или (True, path)
+    :return: кортеж (False, (source, destination)) или (True, path)
     """
 
     if destination not in previous:

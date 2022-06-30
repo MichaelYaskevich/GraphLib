@@ -1,3 +1,6 @@
+from src.data_structures.exception import FileInWrongFormatError
+
+
 def read_graph_file(path, file_format):
     """
     Читает файл произвольного формата описывающий граф.
@@ -12,17 +15,11 @@ def read_graph_file(path, file_format):
 
     with open(path, 'r') as graph_file:
         if file_format == 'al':
-            try:
-                result = read_adjacency_lists(graph_file.readline)
-            except Exception:
-                raise FileInWrongFormatError('Неверный формат файла.')
+            result = read_adjacency_lists(graph_file.readline)
             if graph_file.read() != '':
                 raise FileInWrongFormatError('Неверный формат файла.')
             return result
-        try:
-            return read_weight_matrix(graph_file.readlines())
-        except Exception:
-            raise FileInWrongFormatError('Неверный формат файла.')
+        return read_weight_matrix(graph_file.readlines())
 
 
 def read_adjacency_lists(get_line):
@@ -39,7 +36,7 @@ def read_adjacency_lists(get_line):
     4\n
 
     :param get_line: генератор строк
-    :return: кортеж из 3-х элементов graph, source, target
+    :return: кортеж из 3-х элементов graph, source, destination
     """
     from src.data_structures.di_graph import DiGraph
     from src.data_structures.edge import Edge
@@ -59,9 +56,16 @@ def read_adjacency_lists(get_line):
                 graph.add_node(node)
             graph.add_edge(Edge(current_node, node, weight))
     source = get_line().strip()
-    target = get_line().strip()
+    destination = get_line().strip()
 
-    return graph, source, target
+    if source not in graph.get_nodes():
+        raise FileInWrongFormatError('Неправильный формат файла:'
+                                     ' source отсутствует в графе')
+    if destination not in graph.get_nodes():
+        raise FileInWrongFormatError('Неправильный формат файла:'
+                                     ' destination отсутствует в графе')
+
+    return graph, source, destination
 
 
 def read_weight_matrix(lines):
@@ -97,5 +101,12 @@ def read_weight_matrix(lines):
             val = int(value)
             if val != 0:
                 graph.add_edge(Edge(str(i), str(j), val))
+
+    if source not in graph.get_nodes():
+        raise FileInWrongFormatError('Неправильный формат файла:'
+                                     ' source отсутствует в графе')
+    if destination not in graph.get_nodes():
+        raise FileInWrongFormatError('Неправильный формат файла:'
+                                     ' destination отсутствует в графе')
 
     return graph, source, destination

@@ -22,16 +22,19 @@ class GraphVisualization:
 
 def visualize_graph(graph: Graph, result):
     edges = graph.get_edges()
-    is_ok, full_path = result[0]
+    ok, full_path = result[0]
     path = set()
     nodes_in_path = set(full_path)
     labels = {}
 
-    if is_ok:
+    if ok:
         for i in range(len(full_path) - 1):
             path.add((full_path[i], full_path[i + 1]))
 
     visualization = nx.DiGraph()
+
+    for node in graph.get_nodes():
+        visualization.add_node(node)
 
     for edge in edges:
         labels[(edge.first_node, edge.second_node)] = edge.weight

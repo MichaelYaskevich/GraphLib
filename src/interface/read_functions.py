@@ -13,13 +13,16 @@ def read_graph_file(path, file_format):
     """
     from src.data_structures.exception import FileInWrongFormatError
 
-    with open(path, 'r') as graph_file:
-        if file_format == 'al':
-            result = read_adjacency_lists(graph_file.readline)
-            if graph_file.read() != '':
-                raise FileInWrongFormatError('Неверный формат файла.')
-            return result
-        return read_weight_matrix(graph_file.readlines())
+    try:
+        with open(path, 'r') as graph_file:
+            if file_format == 'al':
+                result = read_adjacency_lists(graph_file.readline)
+                if graph_file.read() != '':
+                    raise FileInWrongFormatError('Неверный формат файла.')
+                return result
+            return read_weight_matrix(graph_file.readlines())
+    except ValueError:
+        raise FileInWrongFormatError('Неверный формат файла.')
 
 
 def read_adjacency_lists(get_line):
@@ -61,7 +64,7 @@ def read_adjacency_lists(get_line):
     if source not in graph.get_nodes():
         raise FileInWrongFormatError('Неправильный формат файла:'
                                      ' source отсутствует в графе')
-    if destination not in graph.get_nodes():
+    if destination not in graph.get_nodes() and destination != '-':
         raise FileInWrongFormatError('Неправильный формат файла:'
                                      ' destination отсутствует в графе')
 
@@ -99,13 +102,12 @@ def read_weight_matrix(lines):
             if value == '-':
                 continue
             val = int(value)
-            if val != 0:
-                graph.add_edge(Edge(str(i), str(j), val))
+            graph.add_edge(Edge(str(i), str(j), val))
 
     if source not in graph.get_nodes():
         raise FileInWrongFormatError('Неправильный формат файла:'
                                      ' source отсутствует в графе')
-    if destination not in graph.get_nodes():
+    if destination not in graph.get_nodes() and destination != '-':
         raise FileInWrongFormatError('Неправильный формат файла:'
                                      ' destination отсутствует в графе')
 

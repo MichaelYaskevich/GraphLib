@@ -55,7 +55,12 @@ def find_shortest_path(graph, source, destination):
 
     source, destination = str(source), str(destination)
     dist, prior_matrix = find_shortest_paths_from_all_to_all(graph)
-    return get_path(source, destination, prior_matrix), dist[destination]
+    path = get_path(source, destination, prior_matrix)
+    if path is None:
+        result = False, (source, destination)
+    else:
+        result = True, path
+    return result, dist[destination]
 
 
 def get_path(source, destination, prior_matrix):

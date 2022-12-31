@@ -18,10 +18,8 @@ if __name__ == '__main__':
     parser = make_parser()
     args = parser.parse_args()
 
-    from src.interface.command_handlers import handle_report_cmd
-    from src.interface.command_handlers import handle_find_path_cmd
-    from src.interface.command_handlers import handle_test_cmd
-    from src.interface.command_handlers import handle_visualization
+    from src.interface.command_handlers import handle_report_cmd, \
+        handle_find_path_cmd, handle_test_cmd, handle_visualization
 
     if args.name == 'report':
         handle_report_cmd(args)

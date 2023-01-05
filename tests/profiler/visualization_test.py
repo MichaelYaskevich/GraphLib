@@ -11,7 +11,7 @@ from src.profiler.visualization import visualize_time
 class VisualizationTests(unittest.TestCase):
     def test_visualize_time(self):
         ROOT_DIR = Path(__file__).parent.parent.parent
-        path = Path(ROOT_DIR, 'Tests', 'resources', 'actual_plot.png')
+        path = Path(ROOT_DIR, 'tests', 'resources', 'actual_plot.png')
 
         x = [1, 2, 3, 4]
         y = [1, 4, 9, 16]
@@ -35,7 +35,7 @@ class VisualizationTests(unittest.TestCase):
         labels.append('2')
 
         expected_image = Image.open(
-            Path(ROOT_DIR, 'Tests', 'resources', 'expected_plot.png'))
+            Path(ROOT_DIR, 'tests', 'resources', 'expected_plot.png'))
 
         data = VisualizationData(
             dictionaries, point_dictionaries, confidence_intervals)

@@ -2,7 +2,7 @@ import unittest
 
 
 from src.algorithms.bellman_ford_help_functions import *
-from Tests.data_structures.graph_making_functions_test import *
+from tests.data_structures.graph_making_functions_test import *
 
 
 class BellmanFordTests(unittest.TestCase):

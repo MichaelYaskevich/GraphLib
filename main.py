@@ -24,7 +24,7 @@ if __name__ == '__main__':
     if args.name == 'report':
         handle_report_cmd(args)
     elif args.name == 'test':
-        from Tests import *
+        from tests import *
         handle_test_cmd()
     elif args.name == 'visualize':
         handle_visualization(args)

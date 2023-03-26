@@ -55,7 +55,7 @@ def topological_sort(adjacency_lists):
 
 def get_cycle(adjacency_lists):
     """
-    Находит цикл в графе
+    Находит цикл в связном графе.
     :param adjacency_lists: представление графа
     :return: цикл как список узлов или None
     """

@@ -21,7 +21,7 @@ def find_negative_cycle(graph, dist, previous):
 
 def update_distances(graph: DiGraph, dist, previous):
     """
-    Находит цикл отрицательного веса.
+    Обновляет все возможные дистанции.
 
     :param graph: граф
     :param dist: массив расстояний

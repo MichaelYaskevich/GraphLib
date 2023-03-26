@@ -33,3 +33,19 @@ def get_path(source, destination, previous: dict):
     path.reverse()
 
     return True, path
+
+
+def insort_desc(array, x):
+    """
+    Вставляет x в отсортированный по убыванию массив.
+    Поиск позиции O(log(n))
+    Вставка O(n)
+    """
+    left, right = 0, len(array)
+    while left < right:
+        mid = (left + right) // 2
+        if array[mid] >= x:
+            left = mid + 1
+        else:
+            right = mid
+    array.insert(right, x)

@@ -1,7 +1,7 @@
-import bisect
 import math
 
 from src.data_structures.di_graph import DiGraph
+from src.algorithms.path_search_help_functions import insort_desc
 
 
 def visit(current_node, visited, graph: DiGraph,
@@ -14,7 +14,7 @@ def visit(current_node, visited, graph: DiGraph,
     :param graph: граф
     :param dist: массив расстояний
     :param previous: массив предудущих
-    :param sorted_nodes: вершины отсортированные по расстояниям до них
+    :param sorted_nodes: вершины отсортированные по убыванию расстояний до них
     """
 
     visited.add(current_node)
@@ -35,15 +35,14 @@ def update_distance(current_node, neighbor,
     :param weight: вес ребра между current_node и neighbor
     :param dist: массив расстояний
     :param previous: массив предудущих
-    :param sorted_nodes: вершины отсортированные по расстояниям до них
+    :param sorted_nodes: вершины отсортированные по убыванию расстояний до них
     """
 
     new_dist = dist[current_node] + weight
     if dist[neighbor] > new_dist:
         previous[neighbor] = current_node
         dist[neighbor] = new_dist
-        bisect.insort(sorted_nodes,
-                      (new_dist, neighbor))
+        insort_desc(sorted_nodes, (new_dist, neighbor))
 
 
 def initialise_distances(nodes, source: str):
@@ -79,7 +78,7 @@ def get_prev_and_dist(graph: DiGraph, source: str):
         graph.get_nodes(), source)
 
     while len(sorted_nodes) > 0:
-        current_node = sorted_nodes.pop(0)
+        current_node = sorted_nodes.pop()
 
         if current_node[1] not in visited:
             visit(current_node[1], visited, graph,

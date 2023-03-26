@@ -37,7 +37,7 @@ class DijkstraTests(unittest.TestCase):
         dist = {1: 1, 2: 4}
         weight = 2
         previous = {neighbor: 0}
-        sorted_nodes = [(2, 3), (4, 4)]
+        sorted_nodes = [(4, 4), (2, 3)]
         update_distance(current_node, neighbor, weight,
                         dist, previous, sorted_nodes)
 
@@ -45,7 +45,7 @@ class DijkstraTests(unittest.TestCase):
         assert new_dist == 3
         assert dist[neighbor] == new_dist
         assert previous[neighbor] == current_node
-        assert sorted_nodes == [(2, 3), (new_dist, neighbor), (4, 4)]
+        assert sorted_nodes == [(4, 4), (new_dist, neighbor), (2, 3)]
 
     def test_update_distance_with_worse_distance(self):
         current_node = 1
@@ -79,7 +79,7 @@ class DijkstraTests(unittest.TestCase):
         assert previous['b'] == 'a'
         assert dist['c'] == 2
         assert dist['b'] == 1
-        assert sorted_nodes == [(0, 'a'), (1, 'b'), (2, 'c'), (3, 'c')]
+        assert sorted_nodes == [(3, 'c'), (2, 'c'), (1, 'b'), (0, 'a')]
 
 
 def find_shortest_paths(graph, source, expected_dist, expected_previous):
